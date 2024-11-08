@@ -33,18 +33,11 @@ public class TEST2 extends OpMode
     
     public void extender_func(){
         int max_pos = 6200;
-        int min_pos = 0;
+        int min_pos = 700;
         double power;
         double drive = -gamepad1.left_stick_y;
         int pos = extender.getCurrentPosition();
-        double target_pos;
-        target_pos = Math.max(min_pos, Math.min(target_pos, max_pos));
-        double distance = target_pos - pos;
-        double nd = distance / (max_pos - min_pos);
-        double slow_factor = 1 - Math.pow(Math.abs(nd), 2) * 10;
-        power = nd * slow_factor;
-        power = Math.max(-1, Math.min(power, 1));
-        
+        power = drive;
         
                 
         if ((power > 0 && pos < max_pos) || (power < 0 && pos > min_pos)) {
