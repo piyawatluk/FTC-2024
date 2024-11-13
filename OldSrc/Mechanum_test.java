@@ -25,10 +25,10 @@ public class Test_mech extends OpMode
         BRM = hardwareMap.get(DcMotor.class, "BRM");
         
         
-        FLM.setDirection(DcMotor.Direction.REVERSE);
-        BLM.setDirection(DcMotor.Direction.REVERSE);
-        FRM.setDirection(DcMotor.Direction.FORWARD);
-        BRM.setDirection(DcMotor.Direction.FORWARD);
+        FLM.setDirection(DcMotor.Direction.FORWARD);
+        BLM.setDirection(DcMotor.Direction.FORWARD);
+        FRM.setDirection(DcMotor.Direction.REVERSE);
+        BRM.setDirection(DcMotor.Direction.REVERSE);
         
         
         
@@ -49,11 +49,16 @@ public class Test_mech extends OpMode
         double y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
+        
+        y = Math.signum(y)*y*y;
+        x = Math.signum(x)*x*x;
+        rx = Math.signum(rx)*rx*rx;
 
-        FLM.setPower(y + x + rx);
-        BLM.setPower(y - x + rx);
-        FRM.setPower(y - x - rx);
-        BRM.setPower(y + x - rx);
+        FLM.setPower(y - x - rx);
+        BLM.setPower(y + x - rx);
+        FRM.setPower(y + x + rx);
+        BRM.setPower(y - x + rx);
+        
     }
 
     @Override
