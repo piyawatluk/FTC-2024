@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="DC_exteder_test", group="Iterative OpMode")
-public class TEST2 extends OpMode
+@TeleOp(name="spinneyyyngh", group="Iterative OpMode")
+public class Test3 extends OpMode
 
 {
 
@@ -19,7 +19,7 @@ public class TEST2 extends OpMode
 
         telemetry.addData("Status", "Initialized");
         extender = hardwareMap.get(DcMotor.class, "et");
-        extender.setDirection(DcMotor.Direction.REVERSE);
+        extender.setDirection(DcMotor.Direction.FORWARD);
         telemetry.addData("Status", "Initialized");
 
     }
@@ -34,15 +34,13 @@ public class TEST2 extends OpMode
     }
 
     public void extender_func(){
-        int max_pos = 6200;
-        int min_pos = 700;
         double power;
-        double drive = -gamepad1.left_stick_y;
+        
 
-        if (drive > 0){
+        if (gamepad1.a == true){
             power = 1;
         }
-        else if (drive < 0){
+        else if (gamepad1.b == true){
             power = -1;
         }
 
@@ -50,28 +48,11 @@ public class TEST2 extends OpMode
             power = 0;
         }
 
-        int pos = extender.getCurrentPosition();
+
+        extender.setPower(power);
 
 
-        if ((power > 0 && pos < max_pos) || (power < 0 && pos > min_pos)) {
-
-            extender.setPower(power);
-
-        }
-
-        else {
-
-            extender.setPower(0);
-
-        }
-
-
-        //extender.setPower(power);
-
-
-        telemetry.addData("input (%.2f)", drive);
         telemetry.addData("Motors", "Power (%.2f)", power);
-        telemetry.addData("Pos", pos);
         telemetry.update();
     }
 
