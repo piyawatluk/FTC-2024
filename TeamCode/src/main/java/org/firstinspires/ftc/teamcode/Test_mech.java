@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -25,10 +26,10 @@ public class Test_mech extends OpMode
         BRM = hardwareMap.get(DcMotor.class, "BRM");
 
 
-        FLM.setDirection(DcMotor.Direction.FORWARD);
-        BLM.setDirection(DcMotor.Direction.FORWARD);
-        FRM.setDirection(DcMotor.Direction.REVERSE);
-        BRM.setDirection(DcMotor.Direction.REVERSE);
+        FLM.setDirection(DcMotor.Direction.REVERSE);
+        BLM.setDirection(DcMotor.Direction.REVERSE);
+        FRM.setDirection(DcMotor.Direction.FORWARD);
+        BRM.setDirection(DcMotor.Direction.FORWARD);
 
 
 
@@ -50,9 +51,9 @@ public class Test_mech extends OpMode
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
 
-        y = Math.signum(y)*y*y;
-        x = Math.signum(x)*x*x;
-        rx = Math.signum(rx)*rx*rx;
+        y = Math.pow(x,3);
+        x = Math.pow(y,3);
+        rx = Math.pow(rx,3);
 
         FLM.setPower(y - x - rx);
         BLM.setPower(y + x - rx);
