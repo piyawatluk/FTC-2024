@@ -51,9 +51,10 @@ public class Test_mech extends OpMode
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
 
-        y = Math.pow(x,3);
-        x = Math.pow(y,3);
-        rx = Math.pow(rx,3);
+        y = Math.signum(y)*y*y;
+        x = Math.signum(x)*x*x;
+        rx = Math.signum(rx)*rx*rx;
+
 
         FLM.setPower(y - x - rx);
         BLM.setPower(y + x - rx);
