@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -15,7 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 @TeleOp(name="servo calibrate", group="Iterative Opmode")
 public class calibrator extends OpMode
 {
-    Servo servo_1, servo_2, servo_3, servo_4;
+    Servo sv_1, sv_2, sv_3;
+    CRServo sv_4;
 
 
 
@@ -26,10 +28,10 @@ public class calibrator extends OpMode
 
         telemetry.addData("Status", "Initialized");
 
-        servo_1 = hardwareMap.get(Servo.class, "sv_1");
-        servo_2 = hardwareMap.get(Servo.class, "sv_2");
-        servo_3 = hardwareMap.get(Servo.class, "sv_3");
-        servo_4 = hardwareMap.get(Servo.class, "sv_4");
+        sv_1 = hardwareMap.get(Servo.class, "sv_1");
+        sv_2 = hardwareMap.get(Servo.class, "sv_2");
+        sv_3 = hardwareMap.get(Servo.class, "sv_3");
+        sv_4 = hardwareMap.get(CRServo.class, "sv_4");
 
     }
 
@@ -45,10 +47,10 @@ public class calibrator extends OpMode
 
     @Override
     public void loop() {
-        servo_1.setPosition(1);
-        servo_2.setPosition(1);
-        servo_3.setPosition(1);
-        servo_4.setPosition(1);
+        sv_1.setPosition(1);
+        sv_2.setPosition(1);
+        sv_3.setPosition(1);
+        sv_4.setPower(0);
 
 
     }
