@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="teleop please run this", group="Iterative OpMode")
@@ -14,61 +13,65 @@ public class teleop extends OpMode
     private DcMotor BLM = null;
     private DcMotor FRM = null;
     private DcMotor BRM = null;
+
+    // Control variables
     boolean invertX = false;
-    boolean invertY = false;
-    double computedX = 0;
-    double computedY = 0;
-    double deadZone = 0;
-    double saturation = 0;
-    double sensitivity = 0;
-    double range = 0;
+    boolean invertY = true;
+    double deadZone = 0.1;
+    double saturation = 1;
+    double sensitivity = -0.5;
+    double range = 1;
 
     @Override
     public void init() {
-
         telemetry.addData("Status", "Initialized");
+
+        // Initialize motors
         FLM = hardwareMap.get(DcMotor.class, "FLM");
         BLM = hardwareMap.get(DcMotor.class, "BLM");
         FRM = hardwareMap.get(DcMotor.class, "FRM");
         BRM = hardwareMap.get(DcMotor.class, "BRM");
 
-
-        FLM.setDirection(DcMotor.Direction.FORWARD);
-        BLM.setDirection(DcMotor.Direction.FORWARD);
-        FRM.setDirection(DcMotor.Direction.REVERSE);
-        BRM.setDirection(DcMotor.Direction.REVERSE);
-
-
-
+        // Set motor directions
+        FLM.setDirection(DcMotor.Direction.REVERSE);
+        BLM.setDirection(DcMotor.Direction.REVERSE);
+        FRM.setDirection(DcMotor.Direction.FORWARD);
+        BRM.setDirection(DcMotor.Direction.FORWARD);
     }
 
     @Override
-    public void init_loop() {
-    }
+    public void init_loop() {}
 
     @Override
     public void start() {
         runtime.reset();
     }
 
+    // This function will calculate the motor powers for mecanum drive.
     public void move_func(){
-        double y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
-        double x = gamepad1.left_stick_x;
-        double rx = gamepad1.right_stick_x;
+        // Update joystick inputs in each loop cycle
+        double computedX_l = cordinate_converter.computeX(gamepad1.left_stick_x, gamepad1.left_stick_y, deadZone, saturation, sensitivity, range, invertX, invertY);
+        double computedY_l = cordinate_converter.computeY(gamepad1.left_stick_x, gamepad1.left_stick_y, deadZone, saturation, sensitivity, range, invertX, invertY);
+        double computedX_r = cordinate_converter.computeX(gamepad2.right_stick_x, gamepad2.right_stick_y, deadZone, saturation, sensitivity, range, invertX, invertY);
 
-        FLM.setPower(y - x - rx);
-        BLM.setPower(y + x - rx);
-        FRM.setPower(y + x + rx);
-        BRM.setPower(y - x + rx);
+        // Mecanum drive equations to calculate motor powers
+        double frontLeft = computedY_l + computedX_l + computedX_r;
+        double frontRight = computedY_l - computedX_l - computedX_r;
+        double backLeft = computedY_l - computedX_l + computedX_r;
+        double backRight = computedY_l + computedX_l - computedX_r;
 
+        // Apply motor power values
+        FLM.setPower(frontLeft);
+        FRM.setPower(frontRight);
+        BLM.setPower(backLeft);
+        BRM.setPower(backRight);
     }
 
     @Override
     public void loop() {
-        move_func();
-    }
-    @Override
-    public void stop() {
+        move_func();  // Update motor powers in each loop cycle
     }
 
+    @Override
+    public void stop() {}
 }
