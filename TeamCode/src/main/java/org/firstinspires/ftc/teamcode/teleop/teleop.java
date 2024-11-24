@@ -51,65 +51,6 @@ public class teleop extends OpMode
         runtime.reset();
     }
 
-    private void computeCoordinates() {
-
-        // Convert to polar coordinates
-        double r = coerceValue(Math.sqrt((gamepad1.left_stick_x * gamepad1.left_stick_x) + (gamepad1.left_stick_y * gamepad1.left_stick_y)), -1.0, 1.0); // Radius
-        double a = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x); // Angle (in radians)
-
-        // Apply modifiers
-        double value = computeModifiers(r);
-
-        // Convert back to Cartesian coordinates
-        double x = value * Math.cos(a);
-        double y = value * Math.sin(a);
-
-        // Apply axis-independent modifiers
-        if (invertX) x = -x;
-        if (invertY) y = -y;
-
-        // Store the computed values
-        computedX = x;
-        computedY = y;
-    }
-
-    private double computeModifiers(double value) {
-        // Apply dead-zone and saturation
-        if (deadZone > 0.0 || saturation < 1.0) {
-            double edgeSpace = (1 - saturation) + deadZone;
-            if (edgeSpace < 1.0) {
-                double multiplier = 1.0 / (1.0 - edgeSpace);
-                value = (value - deadZone) * multiplier;
-                value = coerceValue(value, 0.0, 1.0);
-            } else {
-                value = Math.round(value);
-            }
-        }
-
-        // Apply sensitivity
-        if (sensitivity != 0.0) {
-            value = value + ((value - Math.sin(value * (Math.PI / 2))) * (sensitivity * 2));
-            value = coerceValue(value, 0.0, 1.0);
-        }
-
-        // Apply range
-        if (range < 1.0) {
-            value = value * range;
-        }
-
-        // Return the calculated value
-        return coerceValue(value, -1.0, 1.0);
-    }
-
-    private double coerceValue(double value, double min, double max) {
-        if (value < min) return min;
-        if (value > max) return max;
-        return value;
-    }
-
-
-
-
     public void move_func(){
         double y = -gamepad1.left_stick_y; // Remember, Y stick is reversed!
         double x = gamepad1.left_stick_x;
