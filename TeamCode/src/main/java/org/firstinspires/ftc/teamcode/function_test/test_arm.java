@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="Arm", group="Iterative OpMode")
+@TeleOp(name = "Arm", group = "Iterative OpMode")
 public class test_arm extends OpMode
 
 {
@@ -20,17 +20,16 @@ public class test_arm extends OpMode
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
-    int d_pad_count = 0;
     double pos1 = 45;
     double pos2 = 90;
-    double pos3 = 135/180;
+    double pos3 = 135 / 180;
     int pos_L = 0;
     private int dPadCount = 0;
     private boolean wasDpadUpPressed = false;
     private boolean wasDpadDownPressed = false;
 
     @Override
-    public void init(){
+    public void init() {
         sv_1 = hardwareMap.get(Servo.class, "sv_1");
         sv_3 = hardwareMap.get(Servo.class, "sv_3");
         sv_4 = hardwareMap.get(CRServo.class, "sv_4");
@@ -56,11 +55,11 @@ public class test_arm extends OpMode
         telemetry.addData("Status", "Initialized");
     }
 
-    public void extender_func(){
+    public void extender_func() {
         double power;
         pos_L = extender_L.getCurrentPosition(); // only ref from left side
 
-        if(gamepad1.x == true){
+        if (gamepad1.x == true) {
             extender_L.setTargetPosition(6200);
             extender_R.setTargetPosition(6200);
 
@@ -69,9 +68,7 @@ public class test_arm extends OpMode
 
             extender_L.setPower(1);
             extender_R.setPower(1);
-        }
-
-        else if (gamepad1.b == true){
+        } else if (gamepad1.b == true) {
             extender_L.setTargetPosition(0);
             extender_R.setTargetPosition(0);
 
@@ -81,32 +78,24 @@ public class test_arm extends OpMode
             extender_L.setPower(-1);
             extender_R.setPower(-1);
 
-        }
-
-        else if (gamepad1.a == true){
+        } else if (gamepad1.a == true) {
             extender_L.setTargetPosition(3100);
             extender_R.setTargetPosition(3100);
 
             extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            if (pos_L < 3100){
+            if (pos_L < 3100) {
                 extender_L.setPower(1);
                 extender_R.setPower(1);
-            }
-
-            else{
+            } else {
 
                 extender_L.setPower(-1);
                 extender_R.setPower(-1);
 
             }
 
-            extender_L.setPower(-1);
-            extender_R.setPower(-1);
-        }
-
-        else if (ls.getState() == false){
+        } else if (ls.getState() == false) {
 
             extender_L.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             extender_R.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -152,7 +141,7 @@ public class test_arm extends OpMode
     }
 
     @Override
-    public void loop(){
+    public void loop() {
 
         extender_func();
         controlServo();
