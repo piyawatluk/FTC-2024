@@ -20,9 +20,6 @@ public class Test4 extends OpMode
     @Override
     public void init() {
 
-        telemetry.addData("Status", "Initialized");
-
-
         extender_L = hardwareMap.get(DcMotor.class, "et_1");
         extender_R = hardwareMap.get(DcMotor.class, "et_2");
 

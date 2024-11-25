@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.calibrator;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -10,7 +11,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class calibrator extends OpMode
 {
     Servo sv_1, sv_2, sv_3;
-    CRServo sv_4;
+    DcMotor extender_L, extender_R;
+    DigitalChannel ls = null;
 
 
 
@@ -24,7 +26,16 @@ public class calibrator extends OpMode
         sv_1 = hardwareMap.get(Servo.class, "sv_1");
         sv_2 = hardwareMap.get(Servo.class, "sv_2");
         sv_3 = hardwareMap.get(Servo.class, "sv_3");
-        sv_4 = hardwareMap.get(CRServo.class, "sv_4");
+
+        extender_L = hardwareMap.get(DcMotor.class, "et_1");
+        extender_R = hardwareMap.get(DcMotor.class, "et_2");
+
+        ls = hardwareMap.get(DigitalChannel.class, "ls");
+        ls.setMode(DigitalChannel.Mode.INPUT);
+
+        extender_L.setDirection(DcMotor.Direction.FORWARD);
+        extender_R.setDirection(DcMotor.Direction.REVERSE);
+
 
     }
 
@@ -40,11 +51,32 @@ public class calibrator extends OpMode
 
     @Override
     public void loop() {
-        sv_1.setPosition(1);
-        sv_2.setPosition(1);
-        sv_3.setPosition(1);
-        sv_4.setPower(0);
 
+        double drive = -gamepad1.left_stick_y;
+        extender_L.setPower(drive);
+        extender_R.setPower(drive);
+
+
+        if(gamepad1.dpad_up){
+            sv_1.setPosition(1);
+            sv_2.setPosition(1);
+            sv_3.setPosition(1);
+        }
+
+        if(gamepad1.dpad_down){
+            sv_1.setPosition(0);
+            sv_2.setPosition(0);
+            sv_3.setPosition(0);
+        }
+
+        if (!ls.getState()){
+            telemetry.addLine("limit switch is press");
+        }
+
+        telemetry.addData("sv_1", sv_1.getPosition());
+        telemetry.addData("sv_2", sv_2.getPosition());
+        telemetry.addData("sv_3", sv_3.getPosition());
+        telemetry.update();
 
     }
     @Override
