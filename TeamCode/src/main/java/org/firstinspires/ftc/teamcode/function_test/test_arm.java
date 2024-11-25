@@ -14,8 +14,8 @@ public class test_arm extends OpMode
     private Servo sv_1;
     private Servo sv_3;
     private CRServo sv_4;
-    private static final double in_speed = 1.0;
-    private static final double out_speed = -1.0;
+    private double in_speed = 1.0;
+    private double out_speed = -1.0;
 
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
@@ -25,6 +25,9 @@ public class test_arm extends OpMode
     double pos2 = 90;
     double pos3 = 135/180;
     int pos_L = 0;
+    private int dPadCount = 0;
+    private boolean wasDpadUpPressed = false;
+    private boolean wasDpadDownPressed = false;
 
     @Override
     public void init(){
@@ -116,45 +119,44 @@ public class test_arm extends OpMode
 
     }
 
+    private void controlServo() {
+        // Handle D-pad up and down for servo position control
+        if (gamepad2.dpad_up && !wasDpadUpPressed) {
+            dPadCount = Math.min(dPadCount + 1, 2); // Cap at 2
+        } else if (gamepad2.dpad_down && !wasDpadDownPressed) {
+            dPadCount = Math.max(dPadCount - 1, 0); // Cap at 0
+        }
+
+        // Store button states for next loop
+        wasDpadUpPressed = gamepad2.dpad_up;
+        wasDpadDownPressed = gamepad2.dpad_down;
+
+        // Set servo position based on dPadCount
+        if (dPadCount == 0) {
+            sv_1.setPosition(pos1);
+        } else if (dPadCount == 1) {
+            sv_1.setPosition(pos2);
+        } else if (dPadCount == 2) {
+            sv_1.setPosition(pos3);
+        }
+    }
+
+    private void controlCRServo() {
+        if (gamepad2.left_bumper) {
+            sv_4.setPower(in_speed);
+        } else if (gamepad2.left_trigger > 0.1) {
+            sv_4.setPower(out_speed);
+        } else {
+            sv_4.setPower(0); // Stop servo if no input
+        }
+    }
+
     @Override
     public void loop(){
 
         extender_func();
-
-        boolean wasDpadUpPressed = false;
-        boolean wasDpadDownPressed = false;
-
-        // Detect D-pad up button press to increment d_pad_count
-        if (gamepad2.dpad_up && !wasDpadUpPressed) {
-            d_pad_count++;
-        }
-
-        // Detect D-pad down button press to decrement d_pad_count
-        if (gamepad2.dpad_down && !wasDpadDownPressed) {
-            d_pad_count--;
-        }
-
-        // Store the current state of the buttons to track them in the next loop
-        wasDpadUpPressed = gamepad2.dpad_up;
-        wasDpadDownPressed = gamepad2.dpad_down;
-
-        // Logic to set the servo position based on d_pad_count
-        if (d_pad_count == 0) {
-            sv_1.setPosition(pos1 / 180);  // First position
-        } else if (d_pad_count == 1) {
-            sv_1.setPosition(pos2 / 180);  // Second position
-        } else if (d_pad_count == 2) {
-            sv_1.setPosition(pos3 / 180);  // Third position
-        }
-
-
-        if(gamepad2.left_bumper){
-            sv_4.setPower(in_speed);
-        }
-
-        else if(gamepad2.left_trigger > 0.1){
-            sv_4.setPower(out_speed);
-        }
+        controlServo();
+        controlCRServo();
 
         telemetry.addData("Pos", pos_L);
         telemetry.update();
