@@ -12,7 +12,7 @@ public class test_arm extends OpMode
 
 {
     //hardware name declaration :)
-    private Servo sv_1, sv_3;
+    private Servo sv_1, sv_3, sv_2;
     private CRServo sv_4;
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
@@ -34,6 +34,7 @@ public class test_arm extends OpMode
 
         //hardware pin name declaration
         sv_1 = hardwareMap.get(Servo.class, "sv_1");
+        sv_2 = hardwareMap.get(Servo.class, "sv_2");
         sv_3 = hardwareMap.get(Servo.class, "sv_3");
         sv_4 = hardwareMap.get(CRServo.class, "sv_4");
         extender_L = hardwareMap.get(DcMotor.class, "et_1");
@@ -143,12 +144,21 @@ public class test_arm extends OpMode
         }
     }
 
+    private void gripper(){
+        if (gamepad2.left_bumper == true){
+            sv_2.setPosition(0.5);
+        } else if (gamepad2.right_trigger > 0.5) {
+            sv_2.setPosition(0.7);
+        }
+    }
+
     @Override
     public void loop() {
 
         extender_func();
         controlServo();
         controlCRServo();
+        gripper();
 
         telemetry.addData("Pos", extender_func());
         telemetry.update();
