@@ -11,36 +11,39 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class test_arm extends OpMode
 
 {
-    private Servo sv_1;
-    private Servo sv_3;
+    //hardware name declaration :)
+    private Servo sv_1, sv_3;
     private CRServo sv_4;
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
 
 
+    //setting intake speed
     private double in_speed = 1.0;
     private double out_speed = -1.0;
 
 
+    //setting arm servo position in degree
     double pos1 = 45;
     double pos2 = 90;
     double pos3 = (double) 135 / 180;
 
-
     @Override
     public void init() {
+
+        //hardware pin name declaration
         sv_1 = hardwareMap.get(Servo.class, "sv_1");
         sv_3 = hardwareMap.get(Servo.class, "sv_3");
         sv_4 = hardwareMap.get(CRServo.class, "sv_4");
-
-        sv_4.setPower(0);
-
         extender_L = hardwareMap.get(DcMotor.class, "et_1");
         extender_R = hardwareMap.get(DcMotor.class, "et_2");
-
-
         ls = hardwareMap.get(DigitalChannel.class, "ls");
+
+        //initially stop the intake motor
+        sv_4.setPower(0);
+
+        //hardware behavior declaration
         ls.setMode(DigitalChannel.Mode.INPUT);
 
         extender_L.setDirection(DcMotor.Direction.FORWARD);
@@ -55,8 +58,8 @@ public class test_arm extends OpMode
         telemetry.addData("Status", "Initialized");
     }
 
-    public int extender_func() {
-        int pos_L = extender_L.getCurrentPosition(); // only ref from left side
+    public int extender_func() {                     //lift function
+        int pos_L = extender_L.getCurrentPosition(); // this function only reference encoder position from the left side
 
         if (gamepad1.x) {
             extender_L.setTargetPosition(6200);
