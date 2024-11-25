@@ -127,10 +127,13 @@ public class test_arm extends OpMode
         // Set servo position based on dPadCount
         if (dPadCount == 0) {
             sv_1.setPosition(pos1);
+            sv_3.setPosition(180 - pos1);
         } else if (dPadCount == 1) {
             sv_1.setPosition(pos2);
+            sv_3.setPosition(180 - pos2);
         } else if (dPadCount == 2) {
             sv_1.setPosition(pos3);
+            sv_3.setPosition(180 - pos3);
         }
     }
 
