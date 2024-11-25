@@ -28,6 +28,7 @@ public class test_arm extends OpMode
 
         sv_1.setPosition(servo_pos);
         sv_3.setPosition(servo_pos);
+        sv_4.setPower(0);
 
         telemetry.addData("Status", "Initialized");
     }
@@ -50,9 +51,6 @@ public class test_arm extends OpMode
         }
         else if(gamepad1.left_trigger > 0.1){
             sv_4.setPower(out_speed);
-        }
-        else{
-            sv_4.setPower(0);
         }
 
         telemetry.addData("Arm Position", servo_pos);

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.function_test;
 
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -19,9 +19,6 @@ public class Test4 extends OpMode
     private DigitalChannel ls = null;
     @Override
     public void init() {
-
-        telemetry.addData("Status", "Initialized");
-
 
         extender_L = hardwareMap.get(DcMotor.class, "et_1");
         extender_R = hardwareMap.get(DcMotor.class, "et_2");
