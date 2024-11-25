@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teleop;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -52,7 +52,7 @@ public class teleop extends OpMode
         // Update joystick inputs in each loop cycle
         double computedX_l = cordinate_converter.computeX(gamepad1.left_stick_x, gamepad1.left_stick_y, deadZone, saturation, sensitivity, range, invertX, invertY);
         double computedY_l = cordinate_converter.computeY(gamepad1.left_stick_x, gamepad1.left_stick_y, deadZone, saturation, sensitivity, range, invertX, invertY);
-        double computedX_r = cordinate_converter.computeX(gamepad2.right_stick_x, gamepad2.right_stick_y, deadZone, saturation, sensitivity, range, invertX, invertY);
+        double computedX_r = cordinate_converter.computeX(gamepad1.right_stick_x, gamepad1.right_stick_y, deadZone, saturation, sensitivity, range, invertX, invertY);
 
         // Mecanum drive equations to calculate motor powers
         double frontLeft = computedY_l + computedX_l + computedX_r;
