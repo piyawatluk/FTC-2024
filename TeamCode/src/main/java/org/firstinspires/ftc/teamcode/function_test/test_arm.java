@@ -19,7 +19,6 @@ public class test_arm extends OpMode
 
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
-
     private DigitalChannel ls = null;
     int d_pad_count = 0;
     double pos1 = 45;
