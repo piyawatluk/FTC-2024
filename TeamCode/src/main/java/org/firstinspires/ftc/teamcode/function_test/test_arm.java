@@ -109,10 +109,10 @@ public class test_arm extends OpMode
     }
 
 
+    private int dPadCount = 0;
+    private boolean wasDpadUpPressed = false;
+    private boolean wasDpadDownPressed = false;
     private void controlServo() {
-        int dPadCount = 0;
-        boolean wasDpadUpPressed = false;
-        boolean wasDpadDownPressed = false;
         // Handle D-pad up and down for servo position control
         if (gamepad2.dpad_up && !wasDpadUpPressed) {
             dPadCount = Math.min(dPadCount + 1, 2); // Cap at 2
