@@ -82,8 +82,8 @@ public class test_arm extends OpMode
             extender_R.setPower(-1);
 
         } else if (gamepad1.a) {
-            extender_L.setTargetPosition(3100);
-            extender_R.setTargetPosition(3100);
+            extender_L.setTargetPosition(2400);
+            extender_R.setTargetPosition(2400);
 
             extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
