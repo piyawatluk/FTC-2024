@@ -60,13 +60,13 @@ public class calibrator extends OpMode
         if(gamepad1.dpad_up){
             sv_1.setPosition(1);
             sv_2.setPosition(1);
-            sv_3.setPosition(1);
+            sv_3.setPosition(0);
         }
 
         if(gamepad1.dpad_down){
             sv_1.setPosition(0);
             sv_2.setPosition(0);
-            sv_3.setPosition(0);
+            sv_3.setPosition(1);
         }
 
         if (!ls.getState()){

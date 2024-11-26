@@ -82,8 +82,8 @@ public class test_arm extends OpMode
             extender_R.setPower(-1);
 
         } else if (gamepad1.a) {
-            extender_L.setTargetPosition(600);
-            extender_R.setTargetPosition(600);
+            extender_L.setTargetPosition(500);
+            extender_R.setTargetPosition(500);
 
             extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -151,9 +151,9 @@ public class test_arm extends OpMode
 
     private void gripper(){
         if (gamepad2.left_bumper == true){
-            sv_2.setPosition(0.5);
+            sv_2.setPosition(0);
         } else if (gamepad2.right_trigger > 0.5) {
-            sv_2.setPosition(0.8);
+            sv_2.setPosition(0.3);
         }
     }
 
