@@ -27,7 +27,7 @@ public class test_arm extends OpMode
     //setting arm servo position in degree
     double pos1 = 45;
     double pos2 = 90;
-    double pos3 = (double) 135 / 180;
+    double pos3 = 135;
 
     @Override
     public void init() {
@@ -135,6 +135,9 @@ public class test_arm extends OpMode
             sv_1.setPosition(pos3);
             sv_3.setPosition(180 - pos3);
         }
+
+        telemetry.addData("dPadCount", dPadCount);
+        telemetry.update();
     }
 
     private void controlCRServo() {
