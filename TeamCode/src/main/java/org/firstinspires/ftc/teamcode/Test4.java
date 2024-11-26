@@ -15,7 +15,6 @@ public class Test4 extends OpMode
 
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
-
     private DigitalChannel ls = null;
     @Override
     public void init() {
