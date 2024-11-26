@@ -154,7 +154,7 @@ public class test_arm extends OpMode
         if (gamepad2.left_bumper == true){
             sv_2.setPosition(0.5);
         } else if (gamepad2.right_trigger > 0.5) {
-            sv_2.setPosition(1);
+            sv_2.setPosition(0.8);
         }
     }
 
