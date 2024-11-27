@@ -32,7 +32,7 @@ public class teleop extends OpMode
     //setting arm servo position in degree
     double pos4 = (double) 180 / 180;
     double pos3 = (double) 90 / 180;
-    double pos2 = (double) 15 / 200;
+    double pos2 = (double) 15 / 180;
     double pos1 = (double) 0 / 180;
 
     // Control variables
@@ -131,65 +131,48 @@ public class teleop extends OpMode
         return pos_L; // Return the current position of extender_L
     }
 
-    private int dPadCount = 0;
-    private boolean wasDpadUpPressed = false;
-    private boolean wasDpadDownPressed = false;
     private void movement_presets() {
-        // Handle D-pad up and down for servo position control
-        if (gamepad2.dpad_up && !wasDpadUpPressed) {
-            dPadCount = Math.min(dPadCount + 1, 6); // Cap at 1
-        } else if (gamepad2.dpad_down && !wasDpadDownPressed) {
-            dPadCount = Math.max(dPadCount - 1, 0); // Cap at 0
-        }
 
-        // Store button states for next loop
-        wasDpadUpPressed = gamepad2.dpad_up;
-        wasDpadDownPressed = gamepad2.dpad_down;
-
-        // Set servo position based on dPadCount
-        if (dPadCount == 2) {
-            extender_func(50);
-            sv_1.setPosition(pos1);
-            sv_3.setPosition(1.0 - pos1);
-        }
-
-        else if (dPadCount == 1) {
-            extender_func(6700);
-            sv_1.setPosition(pos2);
-            sv_3.setPosition(1.0 - pos2);
-        }
-
-        else if (dPadCount == 3) {
-            extender_func(0);
-            sv_1.setPosition(pos3);
-            sv_3.setPosition(1.0 - pos3);
-        }
-
-        else if (dPadCount == 0) {
+        if(gamepad2.x){
             extender_func(2200);
             sv_1.setPosition(pos4);
-            sv_3.setPosition(1.0 - pos4);
+            sv_3.setPosition(1.0 - pos4); //start
         }
-
-        else if (dPadCount == 4) {
-            extender_func(5500);
+        else if(gamepad2.y){
+            extender_func(0);
+            sv_1.setPosition(pos3);
+            sv_3.setPosition(1.0 - pos3); //sample collect
+        }
+        else if(gamepad2.b){
+            extender_func(50);
+            sv_1.setPosition(pos1);
+            sv_3.setPosition(1.0 - pos1); //specimen collect
+        }
+        else if(gamepad2.a){
+            extender_func(6200);
             sv_1.setPosition(pos2);
-            sv_3.setPosition(1.0 - pos2);
+            sv_3.setPosition(1.0 - pos2); //high basket
         }
-
-        else if (dPadCount == 5) {
-            extender_func(4000);
+        else if(gamepad2.dpad_down){
+            extender_func(1000);
+            sv_1.setPosition(pos2);
+            sv_3.setPosition(1.0 - pos2); //low basket
+        }
+        else if(gamepad2.dpad_left){
+            extender_func(1000);
+            sv_1.setPosition(pos1);
+            sv_3.setPosition(1.0 - pos1); //high chamber
+        }
+        else if(gamepad2.dpad_right){
+            extender_func(1000);
+            sv_1.setPosition(pos1);
+            sv_3.setPosition(1.0 - pos1); //low chamber
+        }
+        else if(gamepad2.dpad_up){
+            extender_func(1000);
             sv_1.setPosition(pos1);
             sv_3.setPosition(1.0 - pos1);
         }
-
-        else if (dPadCount == 6) {
-            extender_func(3000);
-            sv_1.setPosition(pos1);
-            sv_3.setPosition(1.0 - pos1);
-        }
-
-        telemetry.addData("dPadCount", dPadCount);
     }
 
     private void controlCRServo() {
@@ -203,7 +186,7 @@ public class teleop extends OpMode
     }
 
     private void gripper(){
-        if (gamepad2.right_bumper == true){
+        if (gamepad2.right_bumper){
             sv_2.setPosition(0);
         } else if (gamepad2.right_trigger > 0.5) {
             sv_2.setPosition(0.3);
