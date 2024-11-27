@@ -84,6 +84,8 @@ public class teleop extends OpMode
         FRM.setDirection(DcMotor.Direction.FORWARD);
         BRM.setDirection(DcMotor.Direction.FORWARD);
         extender_func(2200);
+        sv_1.setPosition(pos4);
+        sv_3.setPosition(1 - pos4);
     }
 
     @Override
