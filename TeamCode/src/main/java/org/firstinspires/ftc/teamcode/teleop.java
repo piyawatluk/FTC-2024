@@ -1,3 +1,9 @@
+//อิติปิ โส ภะคะวา อะระหัง สัมมา สัมพุทโธ วิชชาจะระณะสัมปันโน
+// สุคะโต โลกะวิทู อะนุตตะโร ปุริสะทัมมะสาระถิ สัตถา เทวะมะนุสสานัง
+// พุทโธ ภะคะวาติ ธรรมคุณ สะวากขาโต ภะคะวะตา ธัมโม สันทิฏฐิโก
+// อะกาลิโก เอหิปัสสิโก โอปะนะยิโก ปัจจัตตัง เวทิตัพโพ วิญญูหิติ
+
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -7,6 +13,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.cordinate_converter;
 
 @TeleOp(name="teleop please run this", group="Iterative OpMode")
 public class teleop extends OpMode
@@ -56,6 +64,7 @@ public class teleop extends OpMode
         sv_2 = hardwareMap.get(Servo.class, "sv_2");
         sv_3 = hardwareMap.get(Servo.class, "sv_3");
         sv_4 = hardwareMap.get(CRServo.class, "sv_4");
+
         extender_L = hardwareMap.get(DcMotor.class, "et_1");
         extender_R = hardwareMap.get(DcMotor.class, "et_2");
         ls = hardwareMap.get(DigitalChannel.class, "ls");
