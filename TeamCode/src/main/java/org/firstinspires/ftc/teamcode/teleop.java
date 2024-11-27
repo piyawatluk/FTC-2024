@@ -94,6 +94,8 @@ public class teleop extends OpMode
 
     public int extender_func(int targetPosition) { // Takes targetPosition as input
         int pos_L = extender_L.getCurrentPosition(); // References encoder position from the left side
+        int pos_R = extender_R.getCurrentPosition(); // References encoder position from the left side
+        int pos = ((pos_L + pos_R)/2);
 
         // Set target positions for both motors
         extender_L.setTargetPosition(targetPosition);
@@ -103,10 +105,10 @@ public class teleop extends OpMode
         extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Adjust power based on current position relative to the target
-        if (pos_L < targetPosition) {
+        if (pos < targetPosition) {
             extender_L.setPower(1);
             extender_R.setPower(1);
-        } else if (pos_L > targetPosition) {
+        } else if (pos > targetPosition) {
             extender_L.setPower(-1);
             extender_R.setPower(-1);
         } else { // Target reached
