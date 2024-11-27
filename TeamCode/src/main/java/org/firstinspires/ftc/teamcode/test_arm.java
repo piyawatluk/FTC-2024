@@ -71,8 +71,8 @@ public class test_arm extends OpMode
             extender_L.setPower(1);
             extender_R.setPower(1);
         } else if (gamepad1.b) {
-            extender_L.setTargetPosition(0);
-            extender_R.setTargetPosition(0);
+            extender_L.setTargetPosition(2005);
+            extender_R.setTargetPosition(2005);
 
             extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -96,13 +96,12 @@ public class test_arm extends OpMode
             }
 
         } else if (!ls.getState()) { // If limit switch is pressed
-            extender_L.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            extender_R.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            extender_L.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            extender_R.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
             extender_L.setPower(0);
             extender_R.setPower(0);
         }
-
 
         return pos_L; // Return the current position of extender_L
     }
