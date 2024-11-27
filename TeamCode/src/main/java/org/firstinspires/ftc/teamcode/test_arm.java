@@ -60,56 +60,30 @@ public class test_arm extends OpMode
         telemetry.addData("Status", "Initialized");
     }
 
-    public int extender_func() {                     //lift function
-        int pos_L = extender_L.getCurrentPosition(); // this function only reference encoder position from the left side
+    public int extender_func(int targetPosition) { // Takes targetPosition as input
+        int pos_L = extender_L.getCurrentPosition(); // References encoder position from the left side
 
-        if (gamepad1.x) {
-            extender_L.setTargetPosition(6200);
-            extender_R.setTargetPosition(6200);
+        // Set target positions for both motors
+        extender_L.setTargetPosition(targetPosition);
+        extender_R.setTargetPosition(targetPosition);
 
-            extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        // Adjust power based on current position relative to the target
+        if (pos_L < targetPosition) {
             extender_L.setPower(1);
             extender_R.setPower(1);
-        } else if (gamepad1.b) {
-            extender_L.setTargetPosition(2100);
-            extender_R.setTargetPosition(2100);
-
-            extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        } else if (pos_L > targetPosition) {
             extender_L.setPower(-1);
             extender_R.setPower(-1);
-
-        } else if (gamepad1.a) {
-            extender_L.setTargetPosition(500);
-            extender_R.setTargetPosition(500);
-
-            extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            if (pos_L < 3100) {
-                extender_L.setPower(1);
-                extender_R.setPower(1);
-            } else {
-                extender_L.setPower(-1);
-                extender_R.setPower(-1);
-            }
-
+        } else { // Target reached
+            extender_L.setPower(0);
+            extender_R.setPower(0);
         }
-        else if (gamepad1.y) {
-            extender_L.setTargetPosition(0);
-            extender_R.setTargetPosition(0);
 
-            extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            extender_L.setPower(-1);
-            extender_R.setPower(-1);
-
-        }
-        else if (!ls.getState()) { // If limit switch is pressed
+        // Handle limit switch: stop the motors if the limit switch is pressed
+        if (!ls.getState()) {
             extender_L.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             extender_R.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -117,15 +91,15 @@ public class test_arm extends OpMode
             extender_R.setPower(0);
         }
 
-
         return pos_L; // Return the current position of extender_L
     }
+
 
 
     private int dPadCount = 0;
     private boolean wasDpadUpPressed = false;
     private boolean wasDpadDownPressed = false;
-    private void controlServo() {
+    private void movement_presets() {
         // Handle D-pad up and down for servo position control
         if (gamepad2.dpad_up && !wasDpadUpPressed) {
             dPadCount = Math.min(dPadCount + 1, 3); // Cap at 1
@@ -138,16 +112,20 @@ public class test_arm extends OpMode
         wasDpadDownPressed = gamepad2.dpad_down;
 
         // Set servo position based on dPadCount
-        if (dPadCount == 0) {
+        if (dPadCount == 2) {
+            extender_func(50);
             sv_1.setPosition(pos1);
             sv_3.setPosition(1.0 - pos1);
         } else if (dPadCount == 1) {
+            extender_func(6700);
             sv_1.setPosition(pos2);
             sv_3.setPosition(1.0 - pos2);
-        } else if (dPadCount == 2) {
+        } else if (dPadCount == 3) {
+            extender_func(0);
             sv_1.setPosition(pos3);
             sv_3.setPosition(1.0 - pos3);
-        } else if (dPadCount == 3) {
+        } else if (dPadCount == 0) {
+            extender_func(2200);
             sv_1.setPosition(pos4);
             sv_3.setPosition(1.0 - pos4);
         }
@@ -176,12 +154,12 @@ public class test_arm extends OpMode
     @Override
     public void loop() {
 
-        extender_func();
-        controlServo();
+        movement_presets();
         controlCRServo();
         gripper();
 
-        telemetry.addData("Pos", extender_func());
+        telemetry.addData("Pos_L", extender_L.getCurrentPosition());
+        telemetry.addData("Pos_R", extender_R.getCurrentPosition());
         telemetry.update();
 
     }
