@@ -80,6 +80,7 @@ public class teleop extends OpMode
         BLM.setDirection(DcMotor.Direction.REVERSE);
         FRM.setDirection(DcMotor.Direction.FORWARD);
         BRM.setDirection(DcMotor.Direction.FORWARD);
+        extender_func(2200);
     }
 
     @Override
@@ -88,9 +89,8 @@ public class teleop extends OpMode
     @Override
     public void start() {
         runtime.reset();
-    }
 
-    // This function will calculate the motor powers for mecanum drive.
+    }
 
     public int extender_func(int targetPosition) { // Takes targetPosition as input
         int pos_L = extender_L.getCurrentPosition(); // References encoder position from the left side
@@ -134,7 +134,7 @@ public class teleop extends OpMode
     private void movement_presets() {
         // Handle D-pad up and down for servo position control
         if (gamepad2.dpad_up && !wasDpadUpPressed) {
-            dPadCount = Math.min(dPadCount + 1, 3); // Cap at 1
+            dPadCount = Math.min(dPadCount + 1, 6); // Cap at 1
         } else if (gamepad2.dpad_down && !wasDpadDownPressed) {
             dPadCount = Math.max(dPadCount - 1, 0); // Cap at 0
         }
@@ -148,18 +148,42 @@ public class teleop extends OpMode
             extender_func(50);
             sv_1.setPosition(pos1);
             sv_3.setPosition(1.0 - pos1);
-        } else if (dPadCount == 1) {
+        }
+
+        else if (dPadCount == 1) {
             extender_func(6700);
             sv_1.setPosition(pos2);
             sv_3.setPosition(1.0 - pos2);
-        } else if (dPadCount == 3) {
+        }
+
+        else if (dPadCount == 3) {
             extender_func(0);
             sv_1.setPosition(pos3);
             sv_3.setPosition(1.0 - pos3);
-        } else if (dPadCount == 0) {
+        }
+
+        else if (dPadCount == 0) {
             extender_func(2200);
             sv_1.setPosition(pos4);
             sv_3.setPosition(1.0 - pos4);
+        }
+
+        else if (dPadCount == 4) {
+            extender_func(5500);
+            sv_1.setPosition(pos2);
+            sv_3.setPosition(1.0 - pos2);
+        }
+
+        else if (dPadCount == 5) {
+            extender_func(4000);
+            sv_1.setPosition(pos1);
+            sv_3.setPosition(1.0 - pos1);
+        }
+
+        else if (dPadCount == 6) {
+            extender_func(3000);
+            sv_1.setPosition(pos1);
+            sv_3.setPosition(1.0 - pos1);
         }
 
         telemetry.addData("dPadCount", dPadCount);
