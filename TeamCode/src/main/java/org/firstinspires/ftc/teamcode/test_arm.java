@@ -25,8 +25,10 @@ public class test_arm extends OpMode
 
 
     //setting arm servo position in degree
-    double pos1 = (double) 180 / 180;
-    double pos2 = (double) 90 / 180;
+    double pos4 = (double) 180 / 180;
+    double pos3 = (double) 90 / 180;
+    double pos2 = (double) 15 / 200;
+    double pos1 = (double) 0 / 180;
 
     @Override
     public void init() {
@@ -126,7 +128,7 @@ public class test_arm extends OpMode
     private void controlServo() {
         // Handle D-pad up and down for servo position control
         if (gamepad2.dpad_up && !wasDpadUpPressed) {
-            dPadCount = Math.min(dPadCount + 1, 1); // Cap at 1
+            dPadCount = Math.min(dPadCount + 1, 3); // Cap at 1
         } else if (gamepad2.dpad_down && !wasDpadDownPressed) {
             dPadCount = Math.max(dPadCount - 1, 0); // Cap at 0
         }
@@ -142,6 +144,12 @@ public class test_arm extends OpMode
         } else if (dPadCount == 1) {
             sv_1.setPosition(pos2);
             sv_3.setPosition(1.0 - pos2);
+        } else if (dPadCount == 2) {
+            sv_1.setPosition(pos3);
+            sv_3.setPosition(1.0 - pos3);
+        } else if (dPadCount == 3) {
+            sv_1.setPosition(pos4);
+            sv_3.setPosition(1.0 - pos4);
         }
 
         telemetry.addData("dPadCount", dPadCount);
@@ -158,7 +166,7 @@ public class test_arm extends OpMode
     }
 
     private void gripper(){
-        if (gamepad2.left_bumper == true){
+        if (gamepad2.right_bumper == true){
             sv_2.setPosition(0);
         } else if (gamepad2.right_trigger > 0.5) {
             sv_2.setPosition(0.3);
