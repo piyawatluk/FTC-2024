@@ -171,7 +171,7 @@ public class teleop extends OpMode
         else if(gamepad2.dpad_up){
             extender_func(1000);
             sv_1.setPosition(pos1);
-            sv_3.setPosition(1.0 - pos1);
+            sv_3.setPosition(1.0 - pos1); //ascend
         }
     }
 
