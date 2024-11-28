@@ -179,11 +179,12 @@ public class teleop extends OpMode
 
     private void controlCRServo() {
         if (gamepad2.left_bumper) {
-            sv_4.setPower(in_speed);
+            sv_4.setPower(1);
         } else if (gamepad2.left_trigger > 0.1) {
-            sv_4.setPower(out_speed);
+            sv_4.setPower(-1);
         } else {
             sv_4.setPower(0); // Stop servo if no input
+            telemetry.addLine("nuh uh");
         }
     }
 
