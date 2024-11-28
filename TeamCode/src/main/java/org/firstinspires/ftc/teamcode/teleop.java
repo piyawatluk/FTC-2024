@@ -25,10 +25,6 @@ public class teleop extends OpMode
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
 
-    //setting intake speed
-    private double in_speed = 1.0;
-    private double out_speed = -1.0;
-
     //setting arm servo position in degree
     double pos4 = (double) 180 / 180;
     double pos3 = (double) 90 / 180;
@@ -84,8 +80,7 @@ public class teleop extends OpMode
         FRM.setDirection(DcMotor.Direction.FORWARD);
         BRM.setDirection(DcMotor.Direction.FORWARD);
         extender_func(2200);
-        sv_1.setPosition(pos4);
-        sv_3.setPosition(1 - pos4);
+
     }
 
     @Override
@@ -93,6 +88,8 @@ public class teleop extends OpMode
 
     @Override
     public void start() {
+        sv_1.setPosition(pos4);
+        sv_3.setPosition(1 - pos4);
         runtime.reset();
 
     }
@@ -135,12 +132,7 @@ public class teleop extends OpMode
 
     private void movement_presets() {
 
-        if(gamepad2.x){
-            extender_func(2200);
-            sv_1.setPosition(pos4);
-            sv_3.setPosition(1.0 - pos4); //start
-        }
-        else if(gamepad2.y){
+        if(gamepad2.y){
             extender_func(0);
             sv_1.setPosition(pos3);
             sv_3.setPosition(1.0 - pos3); //sample collect
@@ -156,24 +148,21 @@ public class teleop extends OpMode
             sv_3.setPosition(1.0 - pos2); //high basket
         }
         else if(gamepad2.dpad_down){
-            extender_func(1000);
+            extender_func(1900);
             sv_1.setPosition(pos2);
             sv_3.setPosition(1.0 - pos2); //low basket
         }
         else if(gamepad2.dpad_left){
-            extender_func(1000);
+            extender_func(3650);
             sv_1.setPosition(pos1);
             sv_3.setPosition(1.0 - pos1); //high chamber
+            if (gamepad2.x){
+                extender_func(3500);
+            }
         }
-        else if(gamepad2.dpad_right){
-            extender_func(1000);
-            sv_1.setPosition(pos1);
-            sv_3.setPosition(1.0 - pos1); //low chamber
-        }
+
         else if(gamepad2.dpad_up){
             extender_func(1000);
-            sv_1.setPosition(pos1);
-            sv_3.setPosition(1.0 - pos1); //ascend
         }
     }
 
@@ -217,7 +206,7 @@ public class teleop extends OpMode
 
     @Override
     public void loop() {
-        move_func();  // Update motor powers in each loop cycle
+        //move_func();  // Update motor powers in each loop cycle
         movement_presets();
         controlCRServo();
         gripper();
