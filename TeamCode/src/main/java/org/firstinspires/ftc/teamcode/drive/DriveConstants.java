@@ -54,9 +54,9 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 0.026;
-    public static double kA = 0.0035;
-    public static double kStatic = 0.01;
+    public static double kV = 0.03619;
+    public static double kA = 0.00036;
+    public static double kStatic = 0.05212;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -74,9 +74,9 @@ public class DriveConstants {
      * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.
      */
     public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
-            RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
+            RevHubOrientationOnRobot.LogoFacingDirection.UP;
     public static RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR =
-            RevHubOrientationOnRobot.UsbFacingDirection.UP;
+            RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
 
 
     public static double encoderTicksToInches(double ticks) {

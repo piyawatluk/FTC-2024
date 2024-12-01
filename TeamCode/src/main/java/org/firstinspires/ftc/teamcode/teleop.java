@@ -56,7 +56,7 @@ public class teleop extends OpMode
         sv_4 = hardwareMap.get(CRServo.class, "sv_4");
 
         extender_L = hardwareMap.get(DcMotor.class, "et_1");
-        extender_R = hardwareMap.get(DcMotor.class, "et_2");
+        extender_R = hardwareMap.get(DcMotor.class,  "et_2");
         ls = hardwareMap.get(DigitalChannel.class, "ls");
 
         //initially stop the intake motor
@@ -209,6 +209,7 @@ public class teleop extends OpMode
         //move_func();  // Update motor powers in each loop cycle
         movement_presets();
         controlCRServo();
+        move_func();
         gripper();
 
         telemetry.addData("Pos_L", extender_L.getCurrentPosition());
