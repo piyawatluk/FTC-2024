@@ -132,44 +132,43 @@ public class teleop extends OpMode
 
     private void movement_presets() {
 
-        if(gamepad2.y){
+        if(gamepad1.y){
             extender_func(0);
             sv_1.setPosition(pos3);
             sv_3.setPosition(1.0 - pos3); //sample collect
         }
-        else if(gamepad2.b){
+        else if(gamepad1.b){
             extender_func(50);
             sv_1.setPosition(pos1);
             sv_3.setPosition(1.0 - pos1); //specimen collect
         }
-        else if(gamepad2.a){
+        else if(gamepad1.a){
             extender_func(6200);
             sv_1.setPosition(pos2);
             sv_3.setPosition(1.0 - pos2); //high basket
         }
-        else if(gamepad2.dpad_down){
+        else if(gamepad1.dpad_down){
             extender_func(1900);
             sv_1.setPosition(pos2);
             sv_3.setPosition(1.0 - pos2); //low basket
         }
 
-        if (gamepad2.dpad_left) {
-            // Set positions for high chamber
-            extender_func(gamepad2.x ? 3500 : 3650);
+        else if (gamepad1.dpad_left) {
+            extender_func(5000);
             sv_1.setPosition(pos1);
-            sv_3.setPosition(1.0 - pos1);
+            sv_3.setPosition(1.0 - pos1); // high chamber
         }
 
 
-        else if(gamepad2.dpad_up){
+        else if(gamepad1.dpad_up){
             extender_func(1000);
         }
     }
 
     private void controlCRServo() {
-        if (gamepad2.left_bumper) {
+        if (gamepad1.left_bumper) {
             sv_4.setPower(1);
-        } else if (gamepad2.left_trigger > 0.1) {
+        } else if (gamepad1.left_trigger > 0.1) {
             sv_4.setPower(-1);
         } else {
             sv_4.setPower(0); // Stop servo if no input
@@ -178,9 +177,9 @@ public class teleop extends OpMode
     }
 
     private void gripper(){
-        if (gamepad2.right_bumper){
+        if (gamepad1.right_bumper){
             sv_2.setPosition(0);
-        } else if (gamepad2.right_trigger > 0.5) {
+        } else if (gamepad1.right_trigger > 0.5) {
             sv_2.setPosition(0.3);
         }
     }
