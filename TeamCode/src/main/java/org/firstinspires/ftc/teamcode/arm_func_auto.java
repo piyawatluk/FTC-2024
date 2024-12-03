@@ -12,10 +12,16 @@ public class arm_func_auto {
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
 
-    public void initializeHardware(DcMotor extender_L,DcMotor extender_R, DigitalChannel ls){
+    public void initializeHardware(DcMotor extender_L,DcMotor extender_R, DigitalChannel ls, Servo sv_1,Servo sv_2,Servo sv_3,CRServo sv_4){
         this.extender_L = extender_L;
         this.extender_R = extender_R;
         this.ls = ls;
+        this.sv_1 = sv_1;
+        this.sv_2 = sv_2;
+        this.sv_3 = sv_3;
+        this.sv_4 = sv_4;
+
+        ls.setMode(DigitalChannel.Mode.INPUT);
 
         extender_L.setDirection(DcMotor.Direction.FORWARD);
         extender_R.setDirection(DcMotor.Direction.REVERSE);
