@@ -28,7 +28,7 @@ public class teleop extends OpMode
     //setting arm servo position in degree
     double pos4 = (double) 180 / 180;
     double pos3 = (double) 125 / 180;
-    double pos2 = (double) 15 / 180;
+    double pos2 = (double) 25 / 180;
     double pos1 = (double) 0 / 180;
 
     // Control variables
