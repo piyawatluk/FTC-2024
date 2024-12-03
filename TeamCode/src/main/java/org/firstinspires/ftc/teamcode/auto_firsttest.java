@@ -17,34 +17,20 @@ public class auto_firsttest extends LinearOpMode {
     public void runOpMode() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Trajectory traj1 = drive.trajectoryBuilder(new Pose2d())
-                .strafeTo(new Vector2d(25,-42))
+        // We want to start the bot at x: 10, y: -8, heading: 90 degrees
+        Pose2d startPose = new Pose2d(-37, -60, Math.toRadians(90));
+
+        drive.setPoseEstimate(startPose);
+
+        Trajectory traj1 = drive.trajectoryBuilder(startPose)
+                .splineTo(new Vector2d(20, 9), Math.toRadians(45))
                 .build();
 
-        Trajectory traj2_5 = drive.trajectoryBuilder(traj1.end())
-                .back(7)
+        Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
+                .splineTo(new Vector2d(20, 9), Math.toRadians(45))
                 .build();
-
-        Trajectory traj2 = drive.trajectoryBuilder(traj2_5.end())
-                .strafeRight(32)
-                .build();
-
-        Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .strafeTo(new Vector2d(50,-93))
-                .build();
-
-
-        Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
-                .back(41)
-                .build();
-        waitForStart();
-
-        if(isStopRequested()) return;
 
         drive.followTrajectory(traj1);
         drive.followTrajectory(traj2);
-        drive.followTrajectory(traj3);
-        drive.followTrajectory(traj4);
-
     }
 }

@@ -7,17 +7,23 @@ import org.rowlandhall.meepmeep.MeepMeep;
 import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
 import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class MeepMeepTesting {
+public class path_red_right {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(25, 25, Math.toRadians(90), Math.toRadians(90), 10.11)
-                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-37, -60, Math.toRadians(90)))
-                        .strafeTo(new Vector2d(0,-33))
-                        .strafeRight(25)
-                        .splineTo(new Vector2d(33, -12), Math.toRadians(180))
+                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(25, -60, Math.toRadians(90)))
+                        .strafeTo(new Vector2d(10,-33))
+                        .strafeRight(15)
+                        .splineToConstantHeading(new Vector2d(38, -6),Math.toRadians(90))
+                        .splineToConstantHeading(new Vector2d(48,-55),Math.toRadians(270))
+                        .splineToConstantHeading(new Vector2d(48,-6),Math.toRadians(90))
+                        .splineToConstantHeading(new Vector2d(55,-55),Math.toRadians(270))
+                        .splineToConstantHeading(new Vector2d(55,-6),Math.toRadians(90))
+                        .strafeRight(7)
+                        .back(49)
                         .build());
 
 
