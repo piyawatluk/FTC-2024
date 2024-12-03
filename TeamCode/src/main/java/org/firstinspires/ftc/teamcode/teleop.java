@@ -107,7 +107,7 @@ public class teleop extends OpMode
             currentmotor = extender_L;
         }
 
-        int pos = currentmotor.getCurrentPosition(); // References encoder position from the left side
+        int pos = currentmotor.getCurrentPosition(); // References encoder position from the currently using side
 
         // Set target positions for both motors
         currentmotor.setTargetPosition(targetPosition);
