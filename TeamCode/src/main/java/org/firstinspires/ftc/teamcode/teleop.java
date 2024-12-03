@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.cordinate_converter;
 
+
 @TeleOp(name="teleop please run this", group="Iterative OpMode")
 public class teleop extends OpMode
 {
@@ -102,9 +103,11 @@ public class teleop extends OpMode
 
         if(rightmotor){
             currentmotor = extender_R;
+            telemetry.addData("Active Motor", "Right Motor");
         }
         else{
             currentmotor = extender_L;
+            telemetry.addData("Active Motor", "Left Motor");
         }
 
         int pos = currentmotor.getCurrentPosition(); // References encoder position from the currently using side
