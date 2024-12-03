@@ -36,7 +36,7 @@ public class teleop extends OpMode
     boolean invertY = true;
     double deadZone = 0.1;
     double saturation = 1;
-    double sensitivity = 0.5;
+    double sensitivity = 0.45;
     double range = 1;
 
     @Override
