@@ -49,6 +49,8 @@ public class teleop extends OpMode
         FRM = hardwareMap.get(DcMotor.class, "FRM");
         BRM = hardwareMap.get(DcMotor.class, "BRM");
 
+
+
         //arm section
         sv_1 = hardwareMap.get(Servo.class, "sv_1");
         sv_2 = hardwareMap.get(Servo.class, "sv_2");
