@@ -162,14 +162,14 @@ public class teleop extends OpMode
         }
 
         else if (gamepad1.dpad_left) {
-            extender_func(3500);
+            extender_func(4000);
             sv_1.setPosition(pos1);
             sv_3.setPosition(1.0 - pos1); // high chamber
         }
 
 
         else if(gamepad1.dpad_up){
-            extender_func(1000);
+            extender_func(1000); // ascend
         }
     }
 
@@ -187,7 +187,7 @@ public class teleop extends OpMode
         if (gamepad1.right_bumper){
             sv_2.setPosition(0);
         } else if (gamepad1.right_trigger > 0.5) {
-            sv_2.setPosition(0.15);
+            sv_2.setPosition(0.2);
         }
     }
 
