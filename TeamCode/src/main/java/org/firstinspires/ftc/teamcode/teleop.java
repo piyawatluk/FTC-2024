@@ -27,7 +27,7 @@ public class teleop extends OpMode
 
     //setting arm servo position in degree
     double pos4 = (double) 180 / 180;
-    double pos3 = (double) 90 / 180;
+    double pos3 = (double) 100 / 180;
     double pos2 = (double) 15 / 180;
     double pos1 = (double) 0 / 180;
 
@@ -36,7 +36,7 @@ public class teleop extends OpMode
     boolean invertY = true;
     double deadZone = 0.1;
     double saturation = 1;
-    double sensitivity = 0.5;
+    double sensitivity = 0.45;
     double range = 1;
 
     @Override
@@ -213,6 +213,7 @@ public class teleop extends OpMode
 
         telemetry.addData("Pos_L", extender_L.getCurrentPosition());
         telemetry.addData("Pos_R", extender_R.getCurrentPosition());
+        telemetry.addData("pad_test", gamepad1.y);
         telemetry.update();
     }
 
