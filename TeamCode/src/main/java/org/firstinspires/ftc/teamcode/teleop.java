@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.cordinate_converter;
 
+
 @TeleOp(name="teleop please run this", group="Iterative OpMode")
 public class teleop extends OpMode
 {
@@ -27,8 +28,8 @@ public class teleop extends OpMode
 
     //setting arm servo position in degree
     double pos4 = (double) 180 / 180;
-    double pos3 = (double) 135 / 180;
-    double pos2 = (double) 15 / 180;
+    double pos3 = (double) 125 / 180;
+    double pos2 = (double) 25 / 180;
     double pos1 = (double) 0 / 180;
 
     // Control variables
@@ -36,7 +37,7 @@ public class teleop extends OpMode
     boolean invertY = true;
     double deadZone = 0.1;
     double saturation = 1;
-    double sensitivity = 0.5;
+    double sensitivity = 0.45;
     double range = 1;
 
     @Override
@@ -96,40 +97,45 @@ public class teleop extends OpMode
 
     }
 
+    public boolean rightmotor = true;
+
     public int extender_func(int targetPosition) { // Takes targetPosition as input
-        int pos_L = extender_L.getCurrentPosition(); // References encoder position from the left side
-        int pos_R = extender_R.getCurrentPosition(); // References encoder position from the left side
-        int pos = ((pos_L + pos_R)/2);
+        DcMotor currentmotor;
+
+
+        if(rightmotor){
+            currentmotor = extender_R;
+            telemetry.addData("Active Motor", "Right Motor");
+        }
+        else{
+            currentmotor = extender_L;
+            telemetry.addData("Active Motor", "Left Motor");
+        }
+
+        int pos = currentmotor.getCurrentPosition(); // References encoder position from the currently using side
 
         // Set target positions for both motors
-        extender_L.setTargetPosition(targetPosition);
-        extender_R.setTargetPosition(targetPosition);
+        currentmotor.setTargetPosition(targetPosition);
 
-        extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Adjust power based on current position relative to the target
         if (pos < targetPosition) {
-            extender_L.setPower(1);
-            extender_R.setPower(1);
+            currentmotor.setPower(1);
         } else if (pos > targetPosition) {
-            extender_L.setPower(-1);
-            extender_R.setPower(-1);
+            currentmotor.setPower(-1);
         } else { // Target reached
-            extender_L.setPower(0);
-            extender_R.setPower(0);
+            currentmotor.setPower(0);
         }
 
         // Handle limit switch: stop the motors if the limit switch is pressed
         if (!ls.getState()) {
-            extender_L.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            extender_R.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            currentmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            extender_L.setPower(0);
-            extender_R.setPower(0);
+            currentmotor.setPower(0);
         }
 
-        return pos_L; // Return the current position of extender_L
+        return pos; // Return the current position
     }
 
     private void movement_presets() {
@@ -156,7 +162,7 @@ public class teleop extends OpMode
         }
 
         else if (gamepad1.dpad_left) {
-            extender_func(5000);
+            extender_func(3500);
             sv_1.setPosition(pos1);
             sv_3.setPosition(1.0 - pos1); // high chamber
         }
@@ -181,7 +187,7 @@ public class teleop extends OpMode
         if (gamepad1.right_bumper){
             sv_2.setPosition(0);
         } else if (gamepad1.right_trigger > 0.5) {
-            sv_2.setPosition(0.3);
+            sv_2.setPosition(0.15);
         }
     }
 
