@@ -172,7 +172,6 @@ public class teleop extends OpMode
             sv_4.setPower(-1);
         } else {
             sv_4.setPower(0); // Stop servo if no input
-            telemetry.addLine("nuh uh");
         }
     }
 
