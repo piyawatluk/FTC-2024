@@ -94,40 +94,43 @@ public class teleop extends OpMode
 
     }
 
+    public boolean rightmotor = true;
+
     public int extender_func(int targetPosition) { // Takes targetPosition as input
-        int pos_L = extender_L.getCurrentPosition(); // References encoder position from the left side
-        int pos_R = extender_R.getCurrentPosition(); // References encoder position from the left side
-        int pos = ((pos_L + pos_R)/2);
+        DcMotor currentmotor;
+
+
+        if(rightmotor){
+            currentmotor = extender_R;
+        }
+        else{
+            currentmotor = extender_L;
+        }
+
+        int pos = currentmotor.getCurrentPosition(); // References encoder position from the left side
 
         // Set target positions for both motors
-        extender_L.setTargetPosition(targetPosition);
-        extender_R.setTargetPosition(targetPosition);
+        currentmotor.setTargetPosition(targetPosition);
 
-        extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Adjust power based on current position relative to the target
         if (pos < targetPosition) {
-            extender_L.setPower(1);
-            extender_R.setPower(1);
+            currentmotor.setPower(1);
         } else if (pos > targetPosition) {
-            extender_L.setPower(-1);
-            extender_R.setPower(-1);
+            currentmotor.setPower(-1);
         } else { // Target reached
-            extender_L.setPower(0);
-            extender_R.setPower(0);
+            currentmotor.setPower(0);
         }
 
         // Handle limit switch: stop the motors if the limit switch is pressed
         if (!ls.getState()) {
-            extender_L.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            extender_R.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            currentmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            extender_L.setPower(0);
-            extender_R.setPower(0);
+            currentmotor.setPower(0);
         }
 
-        return pos_L; // Return the current position of extender_L
+        return pos; // Return the current position
     }
 
     private void movement_presets() {
