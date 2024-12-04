@@ -147,9 +147,7 @@ public class teleop extends OpMode
             sv_3.setPosition(1.0 - pos3); //sample collect
         }
         else if(gamepad1.b){
-            extender_func(1200);
-            sv_1.setPosition(pos1);
-            sv_3.setPosition(1.0 - pos1); //specimen collect
+            extender_func(1200); //specimen collect
         }
         else if(gamepad1.a){
             extender_func(6200);
