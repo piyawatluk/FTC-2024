@@ -101,41 +101,6 @@ public class auto_red_right extends OpMode {
         return pos; // Return the current position
     }
 
-    private void movement_presets() {
-
-        if(gamepad1.y){
-            extender_func(0);
-            sv_1.setPosition(pos3);
-            sv_3.setPosition(1.0 - pos3); //sample collect
-        }
-        else if(gamepad1.b){
-            extender_func(50);
-            sv_1.setPosition(pos1);
-            sv_3.setPosition(1.0 - pos1); //specimen collect
-        }
-        else if(gamepad1.a){
-            extender_func(6200);
-            sv_1.setPosition(pos2);
-            sv_3.setPosition(1.0 - pos2); //high basket
-        }
-        else if(gamepad1.dpad_down){
-            extender_func(1900);
-            sv_1.setPosition(pos2);
-            sv_3.setPosition(1.0 - pos2); //low basket
-        }
-
-        else if (gamepad1.dpad_left) {
-            extender_func(4000);
-            sv_1.setPosition(pos4);
-            sv_3.setPosition(1.0 - pos4); // high chamber
-        }
-
-
-        else if(gamepad1.dpad_up){
-            extender_func(1000); // ascend
-        }
-    }
-
     @Override
     public void init_loop() {
 
@@ -157,8 +122,8 @@ public class auto_red_right extends OpMode {
 
         Trajectory traj1 = drive.trajectoryBuilder(startPose)
                 .strafeTo(new Vector2d(10,-33))
-                .addTemporalMarker(20, () -> {
-                    // Dont forgot to fix this number!!!!!
+                .addTemporalMarker(30, () -> {
+                    // Aprox.from pythagorus theorem
                     // Run your action in here!
                     extender_func(4000);
                     sv_1.setPosition(pos4);
@@ -176,16 +141,16 @@ public class auto_red_right extends OpMode {
                     sv_1.setPosition(pos4);
                     sv_3.setPosition(1 - pos4);
                 })
-                .back(10)
+                .back(10, SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
         Trajectory traj2 = drive.trajectoryBuilder(traj1_5.end())
                 .strafeRight(15)
-                .splineToConstantHeading(new Vector2d(38, -6),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
-                .splineToConstantHeading(new Vector2d(48,-55),Math.toRadians(270),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
-                .splineToConstantHeading(new Vector2d(48,-6),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
-                .splineToConstantHeading(new Vector2d(55,-55),Math.toRadians(270),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
-                .splineToConstantHeading(new Vector2d(55,-6),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
+                .splineToConstantHeading(new Vector2d(38, -6),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
+                .splineToConstantHeading(new Vector2d(48,-55),Math.toRadians(270),SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
+                .splineToConstantHeading(new Vector2d(48,-6),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
+                .splineToConstantHeading(new Vector2d(55,-55),Math.toRadians(270),SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
+                .splineToConstantHeading(new Vector2d(55,-6),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
                 .build();
 
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
