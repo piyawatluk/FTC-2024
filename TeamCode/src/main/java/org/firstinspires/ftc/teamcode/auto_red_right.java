@@ -30,10 +30,10 @@ public class auto_red_right extends LinearOpMode {
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
                 .strafeRight(15)
                 .splineToConstantHeading(new Vector2d(38, -6),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
-                .splineToConstantHeading(new Vector2d(48,-55),Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(48,-6),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(55,-55),Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(55,-6),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(48,-55),Math.toRadians(270),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
+                .splineToConstantHeading(new Vector2d(48,-6),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
+                .splineToConstantHeading(new Vector2d(55,-55),Math.toRadians(270),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
+                .splineToConstantHeading(new Vector2d(55,-6),Math.toRadians(90),SampleMecanumDrive.getVelocityConstraint(25, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(DriveConstants.SAFE_ACCEL))
                 .build();
 
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
