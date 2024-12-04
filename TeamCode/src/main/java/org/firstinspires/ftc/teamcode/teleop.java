@@ -162,9 +162,15 @@ public class teleop extends OpMode
             sv_3.setPosition(1.0 - pos2); //low basket
         }
 
-        else if (gamepad1.dpad_left) {
-            extender_func(4000); // high chamber
+
+
+        if (gamepad1.dpad_left && !gamepad1.b){
+            extender_func(4000);
         }
+        if (gamepad1.dpad_left && gamepad1.b){
+            extender_func(2500);
+        }
+
 
 
         else if(gamepad1.dpad_up){
