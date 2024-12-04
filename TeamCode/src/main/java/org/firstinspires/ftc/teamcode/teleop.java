@@ -173,7 +173,7 @@ public class teleop extends OpMode
 
 
         else if(gamepad1.dpad_up){
-            extender_func(1000); // ascend
+            extender_func(3000); // ascend
         }
     }
 
