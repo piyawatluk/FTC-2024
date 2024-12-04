@@ -76,6 +76,8 @@ public class calibrator extends OpMode
         telemetry.addData("sv_1", sv_1.getPosition());
         telemetry.addData("sv_2", sv_2.getPosition());
         telemetry.addData("sv_3", sv_3.getPosition());
+        telemetry.addData("Pos_L", extender_L.getCurrentPosition());
+        telemetry.addData("Pos_R", extender_R.getCurrentPosition());
         telemetry.update();
 
     }
