@@ -48,13 +48,25 @@ public class calibrator extends OpMode
         runtime.reset();
     }
 
+    public boolean rightmotor = true;
 
     @Override
     public void loop() {
+        DcMotor currentmotor;
+
+        if(rightmotor){
+            currentmotor = extender_R;
+            telemetry.addData("Active Motor", "Right Motor");
+        }
+        else{
+            currentmotor = extender_L;
+            telemetry.addData("Active Motor", "Left Motor");
+        }
 
         double drive = -gamepad1.left_stick_y;
-        extender_L.setPower(drive);
-        extender_R.setPower(drive);
+
+
+        currentmotor.setPower(drive);
 
 
         if(gamepad1.dpad_up){

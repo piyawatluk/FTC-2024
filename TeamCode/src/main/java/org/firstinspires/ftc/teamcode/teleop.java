@@ -84,9 +84,6 @@ public class teleop extends OpMode
         BRM.setDirection(DcMotor.Direction.FORWARD);
 
         extender_func(2200);
-        telemetry.addData("Pos_L", extender_L.getCurrentPosition());
-        telemetry.addData("Pos_R", extender_R.getCurrentPosition());
-        telemetry.update();
 
     }
 
