@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -11,6 +13,8 @@ public class arm_func_auto {
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
+    public boolean rightmotor = true;
+
 
     public void initializeHardware(DcMotor extender_L,DcMotor extender_R, DigitalChannel ls, Servo sv_1,Servo sv_2,Servo sv_3,CRServo sv_4){
         this.extender_L = extender_L;
@@ -34,37 +38,43 @@ public class arm_func_auto {
 
     }
 
-    public int moveToPosition(int target_pos){
-        int posL = extender_L.getCurrentPosition();
-        int posR = extender_R.getCurrentPosition();
-        int currentPos = (posL + posR) / 2;
+    public int extender_func(int targetPosition) { // Takes targetPosition as input
+        DcMotor currentmotor;
 
-        extender_L.setTargetPosition(target_pos);
-        extender_R.setTargetPosition(target_pos);
 
-        extender_L.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        extender_R.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        if (currentPos < target_pos) {
-            extender_L.setPower(1);
-            extender_R.setPower(1);
-        } else if (currentPos > target_pos) {
-            extender_L.setPower(-1);
-            extender_R.setPower(-1);
-        } else {
-            extender_L.setPower(0);
-            extender_R.setPower(0);
+        if(rightmotor){
+            currentmotor = extender_R;
+            telemetry.addData("Active Motor", "Right Motor");
+        }
+        else{
+            currentmotor = extender_L;
+            telemetry.addData("Active Motor", "Left Motor");
         }
 
-        if (!ls.getState()){
-            extender_L.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            extender_R.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        int pos = currentmotor.getCurrentPosition(); // References encoder position from the currently using side
 
-            extender_L.setPower(0);
-            extender_R.setPower(0);
+        // Set target positions for both motors
+        currentmotor.setTargetPosition(targetPosition);
+
+        currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Adjust power based on current position relative to the target
+        if (pos < targetPosition) {
+            currentmotor.setPower(1);
+        } else if (pos > targetPosition) {
+            currentmotor.setPower(-1);
+        } else { // Target reached
+            currentmotor.setPower(0);
         }
 
-        return currentPos;
+        // Handle limit switch: stop the motors if the limit switch is pressed
+        if (!ls.getState()) {
+            currentmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+            currentmotor.setPower(0);
+        }
+
+        return pos; // Return the current position
     }
 
 }

@@ -16,6 +16,7 @@ public class path_red_right {
                 .setConstraints(25, 25, Math.toRadians(90), Math.toRadians(90), 10.11)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(25, -60, Math.toRadians(90)))
                         .strafeTo(new Vector2d(10,-33))
+                        .back(10)
                         .strafeRight(15)
                         .splineToConstantHeading(new Vector2d(41, -6),Math.toRadians(90))
                         .splineToConstantHeading(new Vector2d(50,-55),Math.toRadians(270))
