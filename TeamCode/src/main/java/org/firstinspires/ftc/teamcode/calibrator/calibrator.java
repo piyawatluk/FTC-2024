@@ -35,6 +35,8 @@ public class calibrator extends OpMode
 
         extender_L.setDirection(DcMotor.Direction.FORWARD);
         extender_R.setDirection(DcMotor.Direction.REVERSE);
+        extender_L.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        extender_R.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
 
     }
