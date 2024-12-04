@@ -186,7 +186,7 @@ public class teleop extends OpMode
         if (gamepad1.right_bumper){
             sv_2.setPosition(0);
         } else if (gamepad1.right_trigger > 0.5) {
-            sv_2.setPosition(0.2);
+            sv_2.setPosition(0.3);
         }
     }
 
