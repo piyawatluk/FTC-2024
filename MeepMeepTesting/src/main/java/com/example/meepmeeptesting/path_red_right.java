@@ -22,6 +22,8 @@ public class path_red_right {
                         .forward(53)
                         .back(15)
                         .splineToLinearHeading(new Pose2d(4,-27,Math.toRadians(90)) , Math.toRadians(90))
+                        .back(5)
+                        .strafeTo(new Vector2d(56,-63))
                         .build());
 
 

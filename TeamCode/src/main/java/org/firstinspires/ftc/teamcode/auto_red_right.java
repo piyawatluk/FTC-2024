@@ -53,21 +53,28 @@ public class auto_red_right extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                .strafeTo(new Vector2d(4,-27))
+                //.strafeTo(new Vector2d(4,-27))
                 .addDisplacementMarker(3, () -> {
                     currentmotor.setTargetPosition(4000);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(1);
                 })
+
                 .addSpatialMarker(new Vector2d(4, -27), () -> {
                     currentmotor.setTargetPosition(3300);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(1);
-                    if (currentmotor.getCurrentPosition() < 3400){
+                    if (currentmotor.getCurrentPosition() < 3500){
                         sv_2.setPosition(0.4);
                     }
                 })
-                .back(10)
+
+                .addSpatialMarker(new Vector2d(46, -60), () -> {
+
+                    sv_2.setPosition(0);
+                })
+
+                //.back(10)
                 //.strafeRight(25)
                 //.splineToLinearHeading(new Pose2d(46, -6,Math.toRadians(180)),Math.toRadians(0))
                 //.strafeLeft(50)
@@ -77,6 +84,16 @@ public class auto_red_right extends LinearOpMode {
                 //.strafeRight(50)
                 //.back(3)
                 //.strafeLeft(50)
+
+                .strafeTo(new Vector2d(4,-27))
+                .back(10)
+                .strafeRight(25)
+                .splineToLinearHeading(new Pose2d(46, -6,Math.toRadians(270)),Math.toRadians(0))
+                .forward(55)
+                .back(15)
+                .splineToLinearHeading(new Pose2d(4,-27,Math.toRadians(90)) , Math.toRadians(90))
+                .strafeTo(new Vector2d(25,-60))
+
                 .build();
 
         waitForStart();
