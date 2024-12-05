@@ -43,6 +43,8 @@ public class teleop extends OpMode
     double sensitivity = 0.45;
     double range = 1;
 
+    public boolean rightmotor = true;
+
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -100,8 +102,6 @@ public class teleop extends OpMode
         runtime.reset();
 
     }
-
-    public boolean rightmotor = true;
 
     public int extender_func(int targetPosition,double power) { // Takes targetPosition as input
         DcMotor currentmotor;
