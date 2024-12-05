@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -210,6 +213,25 @@ public class teleop extends OpMode
         FRM.setPower(frontRight);
         BLM.setPower(backLeft);
         BRM.setPower(backRight);
+    }
+    public void auto_spec(){
+        if (gamepad1.x){
+            DcMotor currentmotor;
+            extender_func(3200,1);
+            if(rightmotor){
+                currentmotor = extender_R;
+                telemetry.addData("Active Motor", "Right Motor");
+            }
+            else{
+                currentmotor = extender_L;
+                telemetry.addData("Active Motor", "Left Motor");
+            }
+
+            if (currentmotor.getCurrentPosition() < 3400){
+                sv_2.setPosition(0.4);
+            }
+
+        }
     }
 
     @Override
