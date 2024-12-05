@@ -27,10 +27,10 @@ public class teleop extends OpMode
     private DigitalChannel ls = null;
 
     //setting arm servo position in degree
-    double pos4 = (double) 180 / 180;
+    double pos4 = (double) 175 / 180;
     double pos3 = (double) 110 / 180;
     double pos2 = (double) 20 / 180;
-    double pos1 = (double) 0 / 180;
+    double pos1 = (double) 5 / 180;
 
     // Control variables
     boolean invertX = false;
@@ -165,10 +165,10 @@ public class teleop extends OpMode
 
 
         if (gamepad1.dpad_left){
-            extender_func(4000,1);
+            extender_func(4000,1); // high chamber
         }
         if (gamepad1.right_bumper){
-            extender_func(2500,0.5);
+            extender_func(2500,0.5); // high chamber place specimen
         }
 
         else if(gamepad1.dpad_up){
