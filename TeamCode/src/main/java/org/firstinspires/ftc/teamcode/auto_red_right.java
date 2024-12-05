@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
+@Autonomous(name = "red_right")
 public class auto_red_right extends LinearOpMode {
     private Servo sv_1, sv_3, sv_2;
     private CRServo sv_4;
@@ -46,30 +48,35 @@ public class auto_red_right extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(25, -60, 90);
+        Pose2d startPose = new Pose2d(25, -60, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                .strafeTo(new Vector2d(10,-33))
-                .addDisplacementMarker(5, () -> {
-                    int targetPosition = 4000;
-                    currentmotor.setTargetPosition(targetPosition);
+                .strafeTo(new Vector2d(4,-27))
+                .addDisplacementMarker(3, () -> {
+                    currentmotor.setTargetPosition(4000);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(1);
-                    sv_1.setPosition(1);
-                    sv_3.setPosition(0);
                 })
-
+                .addSpatialMarker(new Vector2d(4, -27), () -> {
+                    currentmotor.setTargetPosition(3300);
+                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    currentmotor.setPower(1);
+                    if (currentmotor.getCurrentPosition() < 3400){
+                        sv_2.setPosition(0.4);
+                    }
+                })
                 .back(10)
-                .strafeRight(15)
-                .splineToConstantHeading(new Vector2d(41, -6),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(50,-55),Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(50,-6),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(55,-55),Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(55,-6),Math.toRadians(90))
-                .strafeRight(7)
-                .back(49)
+                //.strafeRight(25)
+                //.splineToLinearHeading(new Pose2d(46, -6,Math.toRadians(180)),Math.toRadians(0))
+                //.strafeLeft(50)
+                //.strafeRight(50)
+                //.back(9)
+                //.strafeLeft(50)
+                //.strafeRight(50)
+                //.back(3)
+                //.strafeLeft(50)
                 .build();
 
         waitForStart();
