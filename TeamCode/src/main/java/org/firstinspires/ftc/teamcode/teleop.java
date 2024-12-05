@@ -27,10 +27,10 @@ public class teleop extends OpMode
     private DigitalChannel ls = null;
 
     //setting arm servo position in degree
-    double pos4 = (double) 180 / 180;
-    double pos3 = (double) 110 / 180;
+    double pos4 = (double) 170 / 180;
+    double pos3 = (double) 120 / 180;
     double pos2 = (double) 20 / 180;
-    double pos1 = (double) 0 / 180;
+    double pos1 = (double) 10 / 180;
 
     // Control variables
     boolean invertX = false;
@@ -83,7 +83,7 @@ public class teleop extends OpMode
         FRM.setDirection(DcMotor.Direction.FORWARD);
         BRM.setDirection(DcMotor.Direction.FORWARD);
 
-        extender_func(2200);
+        extender_func(2200,1);
 
     }
 
@@ -100,7 +100,7 @@ public class teleop extends OpMode
 
     public boolean rightmotor = true;
 
-    public int extender_func(int targetPosition) { // Takes targetPosition as input
+    public int extender_func(int targetPosition,double power) { // Takes targetPosition as input
         DcMotor currentmotor;
 
 
@@ -122,9 +122,9 @@ public class teleop extends OpMode
 
         // Adjust power based on current position relative to the target
         if (pos < targetPosition) {
-            currentmotor.setPower(1);
+            currentmotor.setPower(power);
         } else if (pos > targetPosition) {
-            currentmotor.setPower(-1);
+            currentmotor.setPower(-power);
         } else { // Target reached
             currentmotor.setPower(0);
         }
@@ -142,39 +142,37 @@ public class teleop extends OpMode
     private void movement_presets() {
 
         if(gamepad1.y){
-            extender_func(0);
+            extender_func(0,1);
             sv_1.setPosition(pos3);
             sv_3.setPosition(1.0 - pos3); //sample collect
         }
         else if(gamepad1.b){
-            extender_func(660);
+            extender_func(660,1);
             sv_1.setPosition(pos1);
             sv_3.setPosition(1.0 - pos1); //specimen collect
         }
         else if(gamepad1.a){
-            extender_func(6200);
+            extender_func(6200,1);
             sv_1.setPosition(pos2);
             sv_3.setPosition(1.0 - pos2); //high basket
         }
         else if(gamepad1.dpad_down){
-            extender_func(1900);
+            extender_func(1900,1);
             sv_1.setPosition(pos2);
             sv_3.setPosition(1.0 - pos2); //low basket
         }
 
 
 
-        if (gamepad1.dpad_left && !gamepad1.b){
-            extender_func(4000);
+        if (gamepad1.dpad_left){
+            extender_func(4000,1); // high chamber
         }
-        if (gamepad1.dpad_left && gamepad1.b){
-            extender_func(2500);
+        if (gamepad1.right_bumper){
+            extender_func(2500,0.5); // high chamber place specimen
         }
-
-
 
         else if(gamepad1.dpad_up){
-            extender_func(3000); // ascend
+            extender_func(3000,1); // ascend
         }
     }
 
@@ -189,11 +187,10 @@ public class teleop extends OpMode
     }
 
     private void gripper(){
-        if (gamepad1.right_bumper){
-            sv_2.setPosition(0);
-        } else if (gamepad1.right_trigger > 0.5) {
-            sv_2.setPosition(0.3);
-        }
+        double triggerValue = gamepad1.left_trigger;
+
+        double gripperpos = Math.min(triggerValue, 0.4);
+        sv_2.setPosition(gripperpos);
     }
 
     public void move_func(){
