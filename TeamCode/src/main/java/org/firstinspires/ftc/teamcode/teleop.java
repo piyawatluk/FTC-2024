@@ -190,7 +190,7 @@ public class teleop extends OpMode
     }
 
     private void gripper(){
-        double triggerValue = gamepad1.left_trigger;
+        double triggerValue = gamepad1.right_trigger;
 
         double gripperpos = Math.min(triggerValue, 0.4);
         sv_2.setPosition(gripperpos);
