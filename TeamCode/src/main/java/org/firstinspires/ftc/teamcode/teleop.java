@@ -189,11 +189,14 @@ public class teleop extends OpMode
         }
     }
 
-    private void gripper(){
+    private void gripper(double override){
         double triggerValue = gamepad1.right_trigger;
 
         double gripperpos = Math.min(triggerValue, 0.4);
         sv_2.setPosition(gripperpos);
+        if (triggerValue == 0 && override > 0){
+            sv_2.setPosition(override);
+        }
     }
 
     public void move_func(){
@@ -228,7 +231,7 @@ public class teleop extends OpMode
             }
 
             if (currentmotor.getCurrentPosition() < 3400){
-                sv_2.setPosition(0.4);
+                gripper(0.4);
             }
 
         }
@@ -240,7 +243,8 @@ public class teleop extends OpMode
         movement_presets();
         controlCRServo();
         move_func();
-        gripper();
+        gripper(0);
+        auto_spec();
 
         telemetry.addData("Pos_L", extender_L.getCurrentPosition());
         telemetry.addData("Pos_R", extender_R.getCurrentPosition());
