@@ -15,16 +15,13 @@ public class path_red_right {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(25, 25, Math.toRadians(90), Math.toRadians(90), 10.11)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(25, -60, Math.toRadians(90)))
-                        .strafeTo(new Vector2d(10,-33))
+                        .strafeTo(new Vector2d(4,-27))
                         .back(10)
-                        .strafeRight(15)
-                        .splineToConstantHeading(new Vector2d(41, -6),Math.toRadians(90))
-                        .splineToConstantHeading(new Vector2d(50,-55),Math.toRadians(270))
-                        .splineToConstantHeading(new Vector2d(50,-6),Math.toRadians(90))
-                        .splineToConstantHeading(new Vector2d(55,-55),Math.toRadians(270))
-                        .splineToConstantHeading(new Vector2d(55,-6),Math.toRadians(90))
-                        .strafeRight(7)
-                        .back(49)
+                        .strafeRight(25)
+                        .splineToLinearHeading(new Pose2d(46, -6,Math.toRadians(270)),Math.toRadians(0))
+                        .forward(53)
+                        .back(15)
+                        .splineToLinearHeading(new Pose2d(4,-27,Math.toRadians(90)) , Math.toRadians(90))
                         .build());
 
 
