@@ -28,6 +28,7 @@ public class teleop extends OpMode
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
+    DcMotor currentmotor;
 
     //setting arm servo position in degree
     double pos4 = (double) 170 / 180;
@@ -47,6 +48,14 @@ public class teleop extends OpMode
 
     @Override
     public void init() {
+        if(rightmotor){
+            currentmotor = extender_R;
+            telemetry.addData("Active Motor", "Right Motor");
+        }
+        else{
+            currentmotor = extender_L;
+            telemetry.addData("Active Motor", "Left Motor");
+        }
         telemetry.addData("Status", "Initialized");
 
         // Initialize motors
@@ -76,9 +85,6 @@ public class teleop extends OpMode
         extender_L.setDirection(DcMotor.Direction.FORWARD);
         extender_R.setDirection(DcMotor.Direction.REVERSE);
 
-        extender_L.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        extender_R.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         extender_L.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         extender_R.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -88,7 +94,15 @@ public class teleop extends OpMode
         FRM.setDirection(DcMotor.Direction.FORWARD);
         BRM.setDirection(DcMotor.Direction.FORWARD);
 
-        extender_func(2200,1);
+        sv_1.setPosition(0);
+        sv_2.setPosition(1);
+
+        if (!ls.getState()){
+            currentmotor.setPower(0);
+            currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        } else if (ls.getState()) {
+            currentmotor.setPower(-1);
+        }
 
     }
 
@@ -97,24 +111,11 @@ public class teleop extends OpMode
 
     @Override
     public void start() {
-        sv_1.setPosition(pos4);
-        sv_3.setPosition(1 - pos4);
         runtime.reset();
 
     }
 
     public int extender_func(int targetPosition,double power) { // Takes targetPosition as input
-        DcMotor currentmotor;
-
-
-        if(rightmotor){
-            currentmotor = extender_R;
-            telemetry.addData("Active Motor", "Right Motor");
-        }
-        else{
-            currentmotor = extender_L;
-            telemetry.addData("Active Motor", "Left Motor");
-        }
 
         int pos = currentmotor.getCurrentPosition(); // References encoder position from the currently using side
 
