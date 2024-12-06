@@ -239,7 +239,6 @@ public class teleop extends OpMode
 
     @Override
     public void loop() {
-        //move_func();  // Update motor powers in each loop cycle
         movement_presets();
         controlCRServo();
         move_func();

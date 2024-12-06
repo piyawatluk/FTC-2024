@@ -64,7 +64,7 @@ public class auto_red_right extends LinearOpMode {
                     currentmotor.setTargetPosition(3300);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(1);
-                    if (currentmotor.getCurrentPosition() < 3500){
+                    if (currentmotor.getCurrentPosition() < 4000){
                         sv_2.setPosition(0.4);
                     }
                 })
