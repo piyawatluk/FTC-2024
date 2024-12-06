@@ -28,7 +28,7 @@ public class teleop extends OpMode
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
-    DcMotor currentmotor;
+    private DcMotor currentmotor;
 
     //setting arm servo position in degree
     double pos4 = (double) 170 / 180;
@@ -48,6 +48,9 @@ public class teleop extends OpMode
 
     @Override
     public void init() {
+        extender_L = hardwareMap.get(DcMotor.class, "et_1");
+        extender_R = hardwareMap.get(DcMotor.class,  "et_2");
+
         if(rightmotor){
             currentmotor = extender_R;
             telemetry.addData("Active Motor", "Right Motor");
@@ -56,6 +59,7 @@ public class teleop extends OpMode
             currentmotor = extender_L;
             telemetry.addData("Active Motor", "Left Motor");
         }
+
         telemetry.addData("Status", "Initialized");
 
         // Initialize motors
@@ -72,8 +76,7 @@ public class teleop extends OpMode
         sv_3 = hardwareMap.get(Servo.class, "sv_3");
         sv_4 = hardwareMap.get(CRServo.class, "sv_4");
 
-        extender_L = hardwareMap.get(DcMotor.class, "et_1");
-        extender_R = hardwareMap.get(DcMotor.class,  "et_2");
+
         ls = hardwareMap.get(DigitalChannel.class, "ls");
 
         //initially stop the intake motor
@@ -95,19 +98,26 @@ public class teleop extends OpMode
         BRM.setDirection(DcMotor.Direction.FORWARD);
 
         sv_1.setPosition(0);
-        sv_2.setPosition(1);
+        sv_3.setPosition(1);
 
-        if (!ls.getState()){
-            currentmotor.setPower(0);
-            currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        } else if (ls.getState()) {
-            currentmotor.setPower(-1);
-        }
+
 
     }
 
     @Override
-    public void init_loop() {}
+    public void init_loop() {
+        if (!ls.getState()){
+            currentmotor.setPower(0);
+            currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+
+        else if (ls.getState()) {
+            currentmotor.setPower(-0.5);
+        }
+
+        telemetry.addData("ls", ls.getState());
+        telemetry.addData("power", currentmotor.getPower());
+    }
 
     @Override
     public void start() {
