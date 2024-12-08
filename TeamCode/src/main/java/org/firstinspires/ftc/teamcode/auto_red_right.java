@@ -4,7 +4,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -72,7 +71,7 @@ public class auto_red_right extends LinearOpMode {
                     sv_2.setPosition(0);
                 })
 
-                .strafeTo(new Vector2d(4,-22))
+                .strafeTo(new Vector2d(4,-23))
 
                 .addTemporalMarker(2.4, () -> {
                     currentmotor.setTargetPosition(3200);
@@ -82,10 +81,10 @@ public class auto_red_right extends LinearOpMode {
 
                 .back(10)
                 .strafeRight(25)
-                .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(300))
+                .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(320))
 
                 .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(660);
+                    currentmotor.setTargetPosition(900);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(-1);
                 })
@@ -95,23 +94,27 @@ public class auto_red_right extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     sv_2.setPosition(0.4);
                 })
-                .waitSeconds(1.5)
-                .forward(7)
+
+                .waitSeconds(1)
+
+                .forward(8)
 
                 .addDisplacementMarker(() -> {
                     sv_2.setPosition(0);
                 })
+
                 .back(7)
                 .strafeRight(50)
                 .turn(Math.toRadians(180))
 
                 .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(4600);
+                    currentmotor.setTargetPosition(4000);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(1);
                 })
 
                 .forward(32)
+
                 .addDisplacementMarker(() -> {
                     currentmotor.setTargetPosition(3200);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

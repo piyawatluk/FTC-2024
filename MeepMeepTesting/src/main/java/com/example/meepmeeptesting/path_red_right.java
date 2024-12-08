@@ -18,7 +18,7 @@ public class path_red_right {
                         .strafeTo(new Vector2d(4,-27))
                         .back(10)
                         .strafeRight(25)
-                        .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(300))
+                        .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(320))
                         .forward(50)
                         .strafeRight(46)
                         .turn(Math.toRadians(180))

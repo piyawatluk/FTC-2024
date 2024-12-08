@@ -45,8 +45,9 @@ public class teleop extends OpMode
     double saturation = 1;
     double sensitivity = 0.45;
     double range = 1;
+    public boolean manual = false;
 
-    public boolean rightmotor = true;;
+    public boolean rightmotor = true;
 
     @Override
     public void init() {
@@ -141,7 +142,7 @@ public class teleop extends OpMode
         currentmotor.setTargetPosition(targetPosition);
         currentmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
         // Adjust power based on current position relative to the target
         if (pos < targetPosition) {
@@ -152,7 +153,13 @@ public class teleop extends OpMode
             currentmotor.setPower(0);
         }
 
-        // Handle limit switch: stop the motors if the limit switch is pressed
+        if (manual){
+            currentmotor.setPower(gamepad2.left_stick_y);
+        }
+
+        if (!manual){
+            currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
 
 
         return pos; // Return the current position
@@ -251,6 +258,9 @@ public class teleop extends OpMode
     public void loop() {
         if (!ls.getState()) {
             currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+        if (gamepad2.left_trigger == 1 && gamepad2.right_trigger == 1){
+            manual = true;
         }
         movement_presets();
         controlCRServo();
