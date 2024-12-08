@@ -89,7 +89,8 @@ public class auto_red_right extends LinearOpMode {
                     currentmotor.setPower(-1);
                 })
 
-                .forward(45)
+                .forward(45) //เเก้อันนี้นะครับ
+                .back(5)
 
                 .addDisplacementMarker(() -> {
                     sv_2.setPosition(0.4);
@@ -97,29 +98,29 @@ public class auto_red_right extends LinearOpMode {
 
                 .waitSeconds(1)
 
-                .forward(8)
+                .forward(15)
 
                 .addDisplacementMarker(() -> {
                     sv_2.setPosition(0);
                 })
 
                 .back(7)
-                .strafeRight(50)
                 .turn(Math.toRadians(180))
 
                 .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(4000);
+                    currentmotor.setTargetPosition(4600);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(1);
                 })
 
-                .forward(32)
+                .lineTo(new Vector2d(0,-23))
 
                 .addDisplacementMarker(() -> {
                     currentmotor.setTargetPosition(3200);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(-1);
                 })
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4)) // Bring servo in
 
                 .back(5)
                 .strafeTo(new Vector2d(56,-57))

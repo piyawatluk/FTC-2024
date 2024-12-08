@@ -262,6 +262,7 @@ public class teleop extends OpMode
         if (gamepad2.left_trigger == 1 && gamepad2.right_trigger == 1){
             manual = true;
         }
+
         movement_presets();
         controlCRServo();
         move_func();
