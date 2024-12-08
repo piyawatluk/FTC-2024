@@ -18,12 +18,13 @@ public class path_red_right {
                         .strafeTo(new Vector2d(4,-27))
                         .back(10)
                         .strafeRight(25)
-                        .splineToLinearHeading(new Pose2d(46, -6,Math.toRadians(270)),Math.toRadians(0))
-                        .forward(53)
-                        .back(15)
-                        .splineToLinearHeading(new Pose2d(4,-27,Math.toRadians(90)) , Math.toRadians(90))
+                        .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(300))
+                        .forward(50)
+                        .strafeRight(46)
+                        .turn(Math.toRadians(180))
+                        .forward(29)
                         .back(5)
-                        .strafeTo(new Vector2d(56,-63))
+                        .strafeTo(new Vector2d(56,-57))
                         .build());
 
 

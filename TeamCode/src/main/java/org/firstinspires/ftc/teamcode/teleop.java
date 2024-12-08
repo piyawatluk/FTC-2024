@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -29,6 +30,7 @@ public class teleop extends OpMode
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
     private DcMotor currentmotor;
+    private boolean soundFound;
 
     //setting arm servo position in degree
     double pos4 = (double) 170 / 180;
@@ -44,10 +46,14 @@ public class teleop extends OpMode
     double sensitivity = 0.45;
     double range = 1;
 
-    public boolean rightmotor = true;
+    public boolean rightmotor = true;;
 
     @Override
     public void init() {
+
+
+
+
         extender_L = hardwareMap.get(DcMotor.class, "et_1");
         extender_R = hardwareMap.get(DcMotor.class,  "et_2");
 
@@ -91,6 +97,8 @@ public class teleop extends OpMode
         extender_L.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         extender_R.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
+
         // Set motor directions
         FLM.setDirection(DcMotor.Direction.REVERSE);
         BLM.setDirection(DcMotor.Direction.REVERSE);
@@ -131,6 +139,7 @@ public class teleop extends OpMode
 
         // Set target positions for both motors
         currentmotor.setTargetPosition(targetPosition);
+        currentmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -144,11 +153,7 @@ public class teleop extends OpMode
         }
 
         // Handle limit switch: stop the motors if the limit switch is pressed
-        if (!ls.getState()) {
-            currentmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            currentmotor.setPower(0);
-        }
 
         return pos; // Return the current position
     }
@@ -179,10 +184,7 @@ public class teleop extends OpMode
 
 
         if (gamepad1.dpad_left){
-            extender_func(4000,1); // high chamber
-        }
-        if (gamepad1.right_bumper){
-            extender_func(2500,0.5); // high chamber place specimen
+            extender_func(4600,1); // high chamber
         }
 
         else if(gamepad1.dpad_up){
@@ -231,7 +233,7 @@ public class teleop extends OpMode
     public void auto_spec(){
         if (gamepad1.x){
             DcMotor currentmotor;
-            extender_func(3200,1);
+            extender_func(2900,1);
             if(rightmotor){
                 currentmotor = extender_R;
                 telemetry.addData("Active Motor", "Right Motor");
@@ -241,15 +243,15 @@ public class teleop extends OpMode
                 telemetry.addData("Active Motor", "Left Motor");
             }
 
-            if (currentmotor.getCurrentPosition() < 3400){
-                gripper(0.4);
-            }
 
         }
     }
 
     @Override
     public void loop() {
+        if (!ls.getState()) {
+            currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
         movement_presets();
         controlCRServo();
         move_func();

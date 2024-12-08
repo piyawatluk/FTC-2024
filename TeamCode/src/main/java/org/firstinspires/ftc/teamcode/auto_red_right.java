@@ -18,8 +18,10 @@ public class auto_red_right extends LinearOpMode {
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
+    DcMotor currentmotor;
 
-    public boolean rightmotor = true;
+    boolean rightmotor = true;
+
     @Override
     public void runOpMode() throws InterruptedException {
         sv_1 = hardwareMap.get(Servo.class, "sv_1");
@@ -32,14 +34,8 @@ public class auto_red_right extends LinearOpMode {
         ls = hardwareMap.get(DigitalChannel.class, "ls");
         ls.setMode(DigitalChannel.Mode.INPUT);
 
-
-        //extender_L.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //extender_R.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //extender_L.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //extender_R.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        DcMotor currentmotor;
+        sv_1.setPosition(0);
+        sv_3.setPosition(1);
 
         if(rightmotor){
             currentmotor = extender_R;
@@ -50,6 +46,14 @@ public class auto_red_right extends LinearOpMode {
             telemetry.addData("Active Motor", "Left Motor");
         }
 
+        currentmotor.setPower(-1);
+        if (!ls.getState()){
+            currentmotor.setPower(0);
+            currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            currentmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Pose2d startPose = new Pose2d(25, -60, Math.toRadians(90));
@@ -57,48 +61,65 @@ public class auto_red_right extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                .addDisplacementMarker(1,() ->{
-                    sv_1.setPosition(0);
-                    sv_2.setPosition(1);
-                    currentmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                    currentmotor.setPower(-1);
-                    if (!ls.getState()){
-                        currentmotor.setPower(0);
-                        currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                        currentmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                    }
-                })
 
-                .addDisplacementMarker(3, () -> {
-                    currentmotor.setTargetPosition(4000);
+                .addDisplacementMarker(1, () -> {
+                    currentmotor.setTargetPosition(6000);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(1);
-                })
-
-                .addSpatialMarker(new Vector2d(0, -31), () -> {
-                    currentmotor.setTargetPosition(3300);
-                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    currentmotor.setPower(-1);
-                    sv_2.setPosition(0.4);
                 })
 
                 .addSpatialMarker(new Vector2d(46, -45), () -> {
                     sv_2.setPosition(0);
                 })
-                .strafeTo(new Vector2d(4,-27))
 
-                .addDisplacementMarker(() -> {
-                    sv_2.setPosition(0.4);
+                .strafeTo(new Vector2d(4,-22))
+
+                .addTemporalMarker(2.4, () -> {
+                    currentmotor.setTargetPosition(3200);
+                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    currentmotor.setPower(-1);
                 })
 
                 .back(10)
                 .strafeRight(25)
-                .splineToLinearHeading(new Pose2d(46, -6,Math.toRadians(270)),Math.toRadians(0))
-                .forward(55)
-                .back(15)
-                .splineToLinearHeading(new Pose2d(4,-27,Math.toRadians(90)) , Math.toRadians(90))
-                .strafeTo(new Vector2d(25,-60))
+                .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(300))
 
+                .addDisplacementMarker(() -> {
+                    currentmotor.setTargetPosition(660);
+                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    currentmotor.setPower(-1);
+                })
+
+                .forward(45)
+
+                .addDisplacementMarker(() -> {
+                    sv_2.setPosition(0.4);
+                })
+                .waitSeconds(1.5)
+                .forward(7)
+
+                .addDisplacementMarker(() -> {
+                    sv_2.setPosition(0);
+                })
+                .back(7)
+                .strafeRight(50)
+                .turn(Math.toRadians(180))
+
+                .addDisplacementMarker(() -> {
+                    currentmotor.setTargetPosition(4600);
+                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    currentmotor.setPower(1);
+                })
+
+                .forward(32)
+                .addDisplacementMarker(() -> {
+                    currentmotor.setTargetPosition(3200);
+                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    currentmotor.setPower(-1);
+                })
+
+                .back(5)
+                .strafeTo(new Vector2d(56,-57))
                 .build();
 
         waitForStart();
