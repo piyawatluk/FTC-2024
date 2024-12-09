@@ -34,7 +34,7 @@ public class teleop extends OpMode
 
     //setting arm servo position in degree
     double pos4 = (double) 170 / 180;
-    double pos3 = (double) 115 / 180;
+    double pos3 = (double) 110 / 180;
     double pos2 = (double) 15 / 180;
     double pos1 = (double) 10 / 180;
 
@@ -43,7 +43,7 @@ public class teleop extends OpMode
     boolean invertY = true;
     double deadZone = 0.1;
     double saturation = 1;
-    double sensitivity = 0.15;
+    double sensitivity = 0.1;
     double range = 1;
     public boolean manual = false;
 
