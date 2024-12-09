@@ -41,7 +41,7 @@ public class teleop extends OpMode
     // Control variables
     boolean invertX = false;
     boolean invertY = true;
-    double deadZone = 0.1;
+    double deadZone = 0;
     double saturation = 1;
     double sensitivity = 0.1;
     double range = 1;
