@@ -20,11 +20,12 @@ public class path_red_right {
                         .strafeRight(25)
                         .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(320))
                         .forward(50)
-                        .strafeRight(46)
-                        .turn(Math.toRadians(180))
-                        .forward(29)
-                        .back(5)
-                        .strafeTo(new Vector2d(56,-57))
+                        .back(50)
+                        .strafeLeft(10)
+                        .forward(50)
+                        .back(50)
+                        .strafeLeft(5)
+                        .forward(50)
                         .build());
 
 

@@ -99,8 +99,13 @@ public class auto_red_right_2 extends LinearOpMode {
                 .back(10)
                 .strafeRight(25)
                 .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(320))
-
-                .forward(45)
+                .forward(50)
+                .back(50)
+                .strafeLeft(10)
+                .forward(50)
+                .back(50)
+                .strafeLeft(5)
+                .forward(50)
 
                 .build();
 
