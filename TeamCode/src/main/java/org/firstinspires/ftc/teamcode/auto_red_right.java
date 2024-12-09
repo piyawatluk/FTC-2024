@@ -20,6 +20,15 @@ public class auto_red_right extends LinearOpMode {
     DcMotor currentmotor;
 
     boolean rightmotor = true;
+    public void encoder_reset(){
+        if (!ls.getState()){
+            currentmotor.setPower(0);
+            currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            currentmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        } else {
+            currentmotor.setPower(-1);
+        }
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -45,12 +54,7 @@ public class auto_red_right extends LinearOpMode {
             telemetry.addData("Active Motor", "Left Motor");
         }
 
-        currentmotor.setPower(-1);
-        if (!ls.getState()){
-            currentmotor.setPower(0);
-            currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            currentmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
+
 
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -84,7 +88,7 @@ public class auto_red_right extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(320))
 
                 .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(900);
+                    currentmotor.setTargetPosition(1200);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(-1);
                 })
@@ -113,22 +117,26 @@ public class auto_red_right extends LinearOpMode {
                     currentmotor.setPower(1);
                 })
 
-                .lineTo(new Vector2d(0,-23))
+                .lineTo(new Vector2d(0,-21)) //เเก้อันนี้ด้วยนะคับ
 
                 .addDisplacementMarker(() -> {
                     currentmotor.setTargetPosition(3200);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(-1);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4)) // Bring servo in
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4))
 
                 .back(5)
                 .strafeTo(new Vector2d(56,-57))
+                .addDisplacementMarker(() -> {
+                    sv_2.setPosition(0);
+                })
                 .build();
 
         waitForStart();
 
         if (!isStopRequested())
+            encoder_reset();
             drive.followTrajectorySequence(trajSeq);
     }
 }
