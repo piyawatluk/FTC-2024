@@ -104,16 +104,15 @@ public class auto_red_right_2 extends LinearOpMode {
                 .strafeLeft(10)
                 .forward(50)
                 .back(50)
-                .strafeLeft(5)
+                .strafeLeft(10)
                 .forward(50)
-
                 .build();
 
         waitForStart();
 
         if (!isStopRequested())
             encoder_reset();
-        drive.followTrajectorySequence(trajSeq);
+            drive.followTrajectorySequence(trajSeq);
 
     }
 }
