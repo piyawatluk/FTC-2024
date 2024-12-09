@@ -20,15 +20,22 @@ public class auto_red_right extends LinearOpMode {
     DcMotor currentmotor;
 
     boolean rightmotor = true;
+
+
     public void encoder_reset(){
+        sv_1.setPosition(0);
+        sv_3.setPosition(1);
         if (!ls.getState()){
             currentmotor.setPower(0);
             currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             currentmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            sv_1.setPosition(0);
+//            sv_3.setPosition(1);
         } else {
             currentmotor.setPower(-1);
         }
     }
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -42,8 +49,7 @@ public class auto_red_right extends LinearOpMode {
         ls = hardwareMap.get(DigitalChannel.class, "ls");
         ls.setMode(DigitalChannel.Mode.INPUT);
 
-        sv_1.setPosition(0);
-        sv_3.setPosition(1);
+
 
         if(rightmotor){
             currentmotor = extender_R;
@@ -66,7 +72,7 @@ public class auto_red_right extends LinearOpMode {
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
 
                 .addDisplacementMarker(1, () -> {
-                    currentmotor.setTargetPosition(6000);
+                    currentmotor.setTargetPosition(6500);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(1);
                 })
@@ -74,6 +80,9 @@ public class auto_red_right extends LinearOpMode {
                 .addSpatialMarker(new Vector2d(46, -45), () -> {
                     sv_2.setPosition(0);
                 })
+
+
+                .waitSeconds(1.5)//gan
 
                 .strafeTo(new Vector2d(4,-23))
 
@@ -88,7 +97,7 @@ public class auto_red_right extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(320))
 
                 .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(1200);
+                    currentmotor.setTargetPosition(1000);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(-1);
                 })
@@ -117,7 +126,7 @@ public class auto_red_right extends LinearOpMode {
                     currentmotor.setPower(1);
                 })
 
-                .lineTo(new Vector2d(0,-21)) //เเก้อันนี้ด้วยนะคับ
+                .lineTo(new Vector2d(0,-20)) //เเก้อันนี้ด้วยนะคับ
 
                 .addDisplacementMarker(() -> {
                     currentmotor.setTargetPosition(3200);
@@ -138,5 +147,6 @@ public class auto_red_right extends LinearOpMode {
         if (!isStopRequested())
             encoder_reset();
             drive.followTrajectorySequence(trajSeq);
+
     }
 }
