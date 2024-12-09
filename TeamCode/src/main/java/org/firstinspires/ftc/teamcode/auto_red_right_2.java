@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "red_right_1")
-public class auto_red_right extends LinearOpMode {
+@Autonomous(name = "red_right")
+public class auto_red_right_2 extends LinearOpMode {
     private Servo sv_1, sv_3, sv_2;
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
@@ -100,57 +100,15 @@ public class auto_red_right extends LinearOpMode {
                 .strafeRight(25)
                 .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(320))
 
-                .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(1000);
-                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    currentmotor.setPower(-1);
-                })
-
                 .forward(45)
-                .back(5)
 
-                .addDisplacementMarker(() -> {
-                    sv_2.setPosition(0.4);
-                })
-
-                .waitSeconds(1)
-
-                .forward(15)
-
-                .addDisplacementMarker(() -> {
-                    sv_2.setPosition(0);
-                })
-
-                .back(7)
-                .turn(Math.toRadians(180))
-
-                .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(4600);
-                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    currentmotor.setPower(1);
-                })
-
-                .lineTo(new Vector2d(0,-20))
-
-                .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(3000);
-                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    currentmotor.setPower(-1);
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4))
-
-                .back(5)
-                .strafeTo(new Vector2d(56,-57))
-                .addDisplacementMarker(() -> {
-                    sv_2.setPosition(0);
-                })
                 .build();
 
         waitForStart();
 
         if (!isStopRequested())
             encoder_reset();
-            drive.followTrajectorySequence(trajSeq);
+        drive.followTrajectorySequence(trajSeq);
 
     }
 }
