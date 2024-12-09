@@ -34,7 +34,7 @@ public class teleop extends OpMode
 
     //setting arm servo position in degree
     double pos4 = (double) 170 / 180;
-    double pos3 = (double) 118 / 180;
+    double pos3 = (double) 115 / 180;
     double pos2 = (double) 15 / 180;
     double pos1 = (double) 10 / 180;
 
@@ -47,7 +47,7 @@ public class teleop extends OpMode
     double range = 1;
     public boolean manual = false;
 
-    public boolean rightmotor = true;
+    public boolean rightmotor = false;
 
     @Override
     public void init() {
