@@ -18,8 +18,7 @@ public class auto_red_right extends LinearOpMode {
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
     DcMotor currentmotor;
-
-    boolean rightmotor = true;
+    boolean rightmotor = false;
 
 
     public void encoder_reset(){
@@ -29,11 +28,10 @@ public class auto_red_right extends LinearOpMode {
             currentmotor.setPower(0);
             currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             currentmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            sv_1.setPosition(0);
-//            sv_3.setPosition(1);
         } else {
             currentmotor.setPower(-1);
         }
+        telemetry.addData("current_pos", currentmotor.getCurrentPosition());
     }
 
 
@@ -71,26 +69,30 @@ public class auto_red_right extends LinearOpMode {
 
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
 
-                .addDisplacementMarker(1, () -> {
-                    currentmotor.setTargetPosition(6500);
-                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    currentmotor.setPower(1);
-                })
 
                 .addSpatialMarker(new Vector2d(46, -45), () -> {
                     sv_2.setPosition(0);
                 })
 
 
-                .waitSeconds(1.5)//gan
+                .waitSeconds(1.6)
+
+                .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> {
+                    currentmotor.setTargetPosition(4600);
+                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    currentmotor.setPower(1);
+                })
+
 
                 .strafeTo(new Vector2d(4,-23))
 
-                .addTemporalMarker(2.4, () -> {
-                    currentmotor.setTargetPosition(3200);
+                .addDisplacementMarker(() -> {
+                    currentmotor.setTargetPosition(3000);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(-1);
                 })
+
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4))
 
                 .back(10)
                 .strafeRight(25)
@@ -102,7 +104,7 @@ public class auto_red_right extends LinearOpMode {
                     currentmotor.setPower(-1);
                 })
 
-                .forward(45) //เเก้อันนี้นะครับ
+                .forward(45)
                 .back(5)
 
                 .addDisplacementMarker(() -> {
@@ -126,10 +128,10 @@ public class auto_red_right extends LinearOpMode {
                     currentmotor.setPower(1);
                 })
 
-                .lineTo(new Vector2d(0,-20)) //เเก้อันนี้ด้วยนะคับ
+                .lineTo(new Vector2d(0,-20))
 
                 .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(3200);
+                    currentmotor.setTargetPosition(3000);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(-1);
                 })
