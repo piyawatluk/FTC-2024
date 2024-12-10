@@ -259,6 +259,7 @@ public class teleop extends OpMode
         if (!ls.getState()) {
             currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
+
         if (gamepad2.left_trigger == 1 && gamepad2.right_trigger == 1){
             manual = true;
         }
