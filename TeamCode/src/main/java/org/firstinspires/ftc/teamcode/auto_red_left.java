@@ -96,14 +96,16 @@ public class auto_red_left extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4))
 
                 .back(10)
-                .strafeRight(25)
-                .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(320))
+                .strafeLeft(25)
+
+                .splineToLinearHeading(new Pose2d(-50, -6,Math.toRadians(270)),Math.toRadians(320))
+
                 .forward(50)
                 .back(50)
-                .strafeLeft(10)
+                .strafeRight(10)
                 .forward(50)
                 .back(50)
-                .strafeLeft(10)
+                .strafeRight(10)
                 .forward(50)
                 .build();
 
