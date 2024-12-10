@@ -115,33 +115,34 @@ public class teleop extends OpMode
             CURRENT_MOTOR.setPower(0);
             CURRENT_MOTOR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         } else {
-            CURRENT_MOTOR.setPower(-0.5);
+            CURRENT_MOTOR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            CURRENT_MOTOR.setPower(-1);
         }
     }
 
     public void EXTENDER_FUNC(int targetPosition,double power) { // Takes targetPosition as input
-
-        int pos = CURRENT_MOTOR.getCurrentPosition(); // References encoder position from the currently using side
-
-        // Set target positions for both motors
-        CURRENT_MOTOR.setTargetPosition(targetPosition);
-        CURRENT_MOTOR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        // Adjust power based on current position relative to the target
-        if (pos < targetPosition) {
-            CURRENT_MOTOR.setPower(power);
-        } else if (pos > targetPosition) {
-            CURRENT_MOTOR.setPower(-power);
-        } else { // Target reached
-            CURRENT_MOTOR.setPower(0);
-        }
-
-        if (manual){
-            CURRENT_MOTOR.setPower(gamepad2.left_stick_y);
-        }
-
         if (!manual){
+            int pos = CURRENT_MOTOR.getCurrentPosition(); // References encoder position from the currently using side
+
+            // Set target positions for both motors
+            CURRENT_MOTOR.setTargetPosition(targetPosition);
+            CURRENT_MOTOR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             CURRENT_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // Adjust power based on current position relative to the target
+            if (pos < targetPosition) {
+                CURRENT_MOTOR.setPower(power);
+            } else if (pos > targetPosition) {
+                CURRENT_MOTOR.setPower(-power);
+            } else { // Target reached
+                CURRENT_MOTOR.setPower(0);
+            }
+        }
+    }
+    public void MANUAL_EXTENDER(){
+        if (manual){
+            CURRENT_MOTOR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            CURRENT_MOTOR.setPower(-gamepad2.right_stick_y);
         }
     }
 
@@ -213,11 +214,11 @@ public class teleop extends OpMode
     }
 
     public void OVERRIDE_SYSTEM(){
-        if (gamepad2.right_bumper){
-            ENCODER_RESET();
-        } else if (gamepad2.left_trigger >= 0.7 && gamepad2.right_trigger >= 0.7){
+
+        if (gamepad2.left_trigger >= 0.7 && gamepad2.right_trigger >= 0.7){
             manual = true;
         }
+
     }
 
     @Override
@@ -229,9 +230,15 @@ public class teleop extends OpMode
         gripper();
         auto_spec();
         OVERRIDE_SYSTEM();
+        MANUAL_EXTENDER();
+
+        if (gamepad1.right_bumper){
+            ENCODER_RESET();
+        }
 
         telemetry.addData("Pos_L", extender_L.getCurrentPosition());
         telemetry.addData("Pos_R", extender_R.getCurrentPosition());
+        telemetry.addData("manual", manual);
         telemetry.update();
     }
 
