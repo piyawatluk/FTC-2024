@@ -7,7 +7,7 @@ import org.rowlandhall.meepmeep.MeepMeep;
 import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
 import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class path_red_right {
+public class Test_path_for_multispec {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
 
@@ -17,14 +17,12 @@ public class path_red_right {
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(25, -60, Math.toRadians(90)))
                         .strafeTo(new Vector2d(4,-27))
                         .back(10)
-                        .strafeRight(30)
-                        .turn(Math.toRadians(180))
-                        .back(30)
-                        .strafeLeft(15)
-                        .forward(50)
-                        .back(50)
-                        .strafeLeft(10)
-                        .forward(50)
+                        .lineToLinearHeading(new Pose2d(53,-60,Math.toRadians(270)))
+                        .lineToLinearHeading(new Pose2d(4,-27,Math.toRadians(90)))
+                        .back(10)
+                        .lineToLinearHeading(new Pose2d(53,-60,Math.toRadians(270)))
+                        .lineToLinearHeading(new Pose2d(4,-27,Math.toRadians(90)))
+                        .lineTo(new Vector2d(53,-60))
                         .build());
 
 

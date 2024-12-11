@@ -17,16 +17,15 @@ public class path_red_left {
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-37, -60, Math.toRadians(90)))
                         .strafeTo(new Vector2d(-4,-27))
                         .back(10)
-                        .strafeLeft(25)
-                        .splineToLinearHeading(new Pose2d(-46, -6,Math.toRadians(0)),Math.toRadians(270))
-                        .strafeRight(52)
+                        .strafeLeft(30)
+                        .turn(Math.toRadians(90))
+                        .strafeRight(30)
+                        .forward(15)
                         .strafeLeft(50)
-                        .back(10)
                         .strafeRight(50)
+                        .forward(10)
                         .strafeLeft(50)
-                        .back(5)
-                        .strafeRight(50)
-                        .strafeLeft(50)
+                        .lineTo(new Vector2d(-23,0))
 
                         .build());
 

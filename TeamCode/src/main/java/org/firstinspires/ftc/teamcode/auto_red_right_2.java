@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "red_right")
+@Autonomous(name = "one_spec_right")
 public class auto_red_right_2 extends LinearOpMode {
     private Servo sv_1, sv_3, sv_2;
     private DcMotor extender_L = null;
@@ -21,9 +21,10 @@ public class auto_red_right_2 extends LinearOpMode {
     boolean rightmotor = false;
 
 
-    public void encoder_reset(){
+    public void encoder_reset() throws InterruptedException {
         sv_1.setPosition(0);
         sv_3.setPosition(1);
+        sleep(700);
         if (!ls.getState()){
             currentmotor.setPower(0);
             currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -75,7 +76,7 @@ public class auto_red_right_2 extends LinearOpMode {
                 })
 
 
-                .waitSeconds(1.5)
+                .waitSeconds(1.2)
 
                 .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> {
                     currentmotor.setTargetPosition(4000);
@@ -97,11 +98,10 @@ public class auto_red_right_2 extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4))
 
                 .back(10)
-                .strafeRight(25)
-                .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(320))
-                .forward(50)
-                .back(50)
-                .strafeLeft(10)
+                .strafeRight(30)
+                .turn(Math.toRadians(180))
+                .back(30)
+                .strafeLeft(10 )
                 .forward(50)
                 .back(50)
                 .strafeLeft(10)
@@ -111,7 +111,6 @@ public class auto_red_right_2 extends LinearOpMode {
         waitForStart();
 
         if (!isStopRequested())
-            encoder_reset();
             drive.followTrajectorySequence(trajSeq);
 
     }

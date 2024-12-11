@@ -32,7 +32,7 @@ public class teleop extends OpMode
     //setting arm servo position in degree
     double pos3 = (double) 100 / 180;
     double pos2 = (double) 15 / 180;
-    double pos1 = (double) 10 / 180;
+    double pos1 = (double) 0 / 180;
 
     // Control variables
     boolean invertX = false;
@@ -154,7 +154,7 @@ public class teleop extends OpMode
             RIGHT_ARM_SERVO.setPosition(1.0 - pos3); //sample collect
         }
         else if(gamepad1.b){
-            EXTENDER_FUNC(660,1);
+            EXTENDER_FUNC(1100,1);
             LEFT_ARM_SERVO.setPosition(pos1);
             RIGHT_ARM_SERVO.setPosition(1.0 - pos1); //specimen collect
         }
@@ -170,7 +170,12 @@ public class teleop extends OpMode
         }
 
         else if (gamepad1.dpad_left){
-            EXTENDER_FUNC(4600,1); // high chamber
+            EXTENDER_FUNC(4000,1); // high chamber
+        }
+        else if (gamepad1.dpad_right){
+            EXTENDER_FUNC(660,1);
+            LEFT_ARM_SERVO.setPosition(0.5);
+            RIGHT_ARM_SERVO.setPosition(0.5);
         }
 
     }
@@ -218,6 +223,16 @@ public class teleop extends OpMode
         if (gamepad2.left_trigger >= 0.7 && gamepad2.right_trigger >= 0.7){
             manual = true;
         }
+        if (gamepad2.left_bumper && gamepad2.right_bumper){
+            manual = false;
+        }
+        if (gamepad2.dpad_right){
+            RIGHT_MOTOR = true;
+
+
+        } else if (gamepad2.dpad_left){
+            RIGHT_MOTOR = false;
+        }
 
     }
 
@@ -231,6 +246,7 @@ public class teleop extends OpMode
         auto_spec();
         OVERRIDE_SYSTEM();
         MANUAL_EXTENDER();
+        ACTIVE_MOTOR_CHECKER();
 
         if (gamepad1.right_bumper){
             ENCODER_RESET();
