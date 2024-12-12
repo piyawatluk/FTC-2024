@@ -11,29 +11,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "one_spec_right")
-public class auto_red_right_2 extends LinearOpMode {
+@Autonomous(name = "No load left")
+public class non_load extends LinearOpMode {
     private Servo sv_1, sv_3, sv_2;
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
     private DigitalChannel ls = null;
     DcMotor currentmotor;
     boolean rightmotor = false;
-
-
-    public void encoder_reset() throws InterruptedException {
-        sv_1.setPosition(0);
-        sv_3.setPosition(1);
-        sleep(700);
-        if (!ls.getState()){
-            currentmotor.setPower(0);
-            currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            currentmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        } else {
-            currentmotor.setPower(-1);
-        }
-        telemetry.addData("current_pos", currentmotor.getCurrentPosition());
-    }
 
 
     @Override
@@ -64,48 +49,24 @@ public class auto_red_right_2 extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(25, -60, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(-37, -60, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-
-
-                .addSpatialMarker(new Vector2d(46, -45), () -> {
-                    sv_2.setPosition(0);
-                })
-
-
-                .waitSeconds(1.2)
-
-                .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> {
-                    currentmotor.setTargetPosition(4000);
-                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    currentmotor.setPower(1);
-                })
-
-
-                .strafeTo(new Vector2d(4,-23))
-
-                .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(3000);
-                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    currentmotor.setPower(-1);
-                })
-
-                .waitSeconds(0.5)
-
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4))
-
-                .back(10)
-                .strafeRight(30)
+                .strafeRight(6)
+                .forward(55)
                 .turn(Math.toRadians(180))
-                .back(30)
-                .strafeLeft(10 )
-                .forward(50)
-                .back(50)
-                .strafeLeft(10)
-                .forward(50)
+                .strafeRight(10)
+                .forward(45)
+                .back(45)
+                .strafeRight(10)
+                .forward(45)
+                .back(45)
+                .strafeRight(7)
+                .forward(45)
+                .turn(Math.toRadians(-90))
+                .lineTo(new Vector2d(-23,0))
                 .build();
 
         waitForStart();

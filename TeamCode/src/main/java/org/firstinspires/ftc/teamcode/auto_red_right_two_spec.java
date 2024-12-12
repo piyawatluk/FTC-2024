@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(name = "two_spec")
-public class auto_red_right extends LinearOpMode {
+public class auto_red_right_two_spec extends LinearOpMode {
     private Servo sv_1, sv_3, sv_2;
     private DcMotor extender_L = null;
     private DcMotor extender_R = null;
@@ -69,26 +69,26 @@ public class auto_red_right extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-
-
                 .addSpatialMarker(new Vector2d(46, -45), () -> {
                     sv_2.setPosition(0);
                 })
 
 
-                .waitSeconds(1.5)
+                .waitSeconds(1.2)
 
                 .UNSTABLE_addTemporalMarkerOffset(-0.5, () -> {
+                    sv_1.setPosition(0);
+                    sv_3.setPosition(1);
                     currentmotor.setTargetPosition(4000);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(1);
                 })
 
 
-                .strafeTo(new Vector2d(4,-23))
+                .strafeTo(new Vector2d(4,-25))
 
                 .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(3000);
+                    currentmotor.setTargetPosition(2900);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(-1);
                 })
@@ -96,55 +96,18 @@ public class auto_red_right extends LinearOpMode {
                 .waitSeconds(0.5)
 
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4))
-
                 .back(10)
-                .strafeRight(25)
-                .splineToLinearHeading(new Pose2d(50, -6,Math.toRadians(270)),Math.toRadians(320))
+                .addDisplacementMarker(()->{
 
-                .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(1000);
+                    currentmotor.setTargetPosition(1100);
                     currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     currentmotor.setPower(-1);
                 })
 
-                .forward(45)
-                .back(5)
-
-                .addDisplacementMarker(() -> {
-                    sv_2.setPosition(0.4);
-                })
-
-                .waitSeconds(1)
-
-                .forward(15)
-
-                .addDisplacementMarker(() -> {
-                    sv_2.setPosition(0);
-                })
-
-                .back(7)
                 .turn(Math.toRadians(180))
-
-                .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(4600);
-                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    currentmotor.setPower(1);
-                })
-
-                .lineTo(new Vector2d(0,-20))
-
-                .addDisplacementMarker(() -> {
-                    currentmotor.setTargetPosition(3000);
-                    currentmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    currentmotor.setPower(-1);
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4))
-
-                .back(5)
-                .strafeTo(new Vector2d(56,-57))
-                .addDisplacementMarker(() -> {
-                    sv_2.setPosition(0);
-                })
+                .strafeLeft(50)
+                .forward(25)
+                .back(10)
                 .build();
 
         waitForStart();

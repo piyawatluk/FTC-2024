@@ -20,22 +20,6 @@ public class auto_red_left extends LinearOpMode {
     DcMotor currentmotor;
     boolean rightmotor = false;
 
-
-    public void encoder_reset(){
-        sv_1.setPosition(0);
-        sv_3.setPosition(1);
-        sleep(700);
-        if (!ls.getState()){
-            currentmotor.setPower(0);
-            currentmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            currentmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        } else {
-            currentmotor.setPower(-1);
-        }
-        telemetry.addData("current_pos", currentmotor.getCurrentPosition());
-    }
-
-
     @Override
     public void runOpMode() throws InterruptedException {
         sv_1 = hardwareMap.get(Servo.class, "sv_1");
@@ -97,24 +81,24 @@ public class auto_red_left extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> sv_2.setPosition(0.4))
 
                 .back(10)
-                .strafeLeft(25)
+                .strafeLeft(30)
 
-                .splineToLinearHeading(new Pose2d(-50, -6,Math.toRadians(270)),Math.toRadians(320))
-
-                .forward(50)
-                .back(50)
-                .strafeRight(10)
-                .forward(50)
-                .back(50)
-                .strafeRight(10)
-                .forward(50)
+                .turn(Math.toRadians(-90))
+                .strafeLeft(30)
+                .back(15)
+                .strafeRight(50)
+                .strafeLeft(50)
+                .back(10)
+                .strafeRight(50)
+                .lineTo(new Vector2d(-23,0))
                 .build();
 
         waitForStart();
 
-        if (!isStopRequested())
-            encoder_reset();
-        drive.followTrajectorySequence(trajSeq);
+        if (!isStopRequested()){
+            drive.followTrajectorySequence(trajSeq);
+        }
+
 
     }
 }

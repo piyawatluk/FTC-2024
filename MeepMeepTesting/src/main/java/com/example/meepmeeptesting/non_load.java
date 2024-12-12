@@ -7,7 +7,7 @@ import org.rowlandhall.meepmeep.MeepMeep;
 import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
 import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class Test_path_for_multispec {
+public class non_load {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
 
@@ -15,17 +15,17 @@ public class Test_path_for_multispec {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(25, 25, Math.toRadians(90), Math.toRadians(90), 10.11)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(25, -60, Math.toRadians(90)))
-                        .strafeTo(new Vector2d(4,-25))
-                        .waitSeconds(0.5)
-                        .back(14)
+                        .strafeRight(10)
+                        .forward(55)
                         .turn(Math.toRadians(180))
-                        .strafeLeft(50)
-                        .forward(25)
-                        .back(10)
-                        .turn(Math.toRadians(180))
-                        .lineTo(new Vector2d(0,-25))
-                        .back(10)
-                        .lineTo(new Vector2d(30,-60))
+                        .strafeLeft(10)
+                        .forward(45)
+                        .back(45)
+                        .strafeLeft(10)
+                        .forward(45)
+                        .back(45)
+                        .strafeLeft(7)
+                        .forward(45)
                         .build());
 
 

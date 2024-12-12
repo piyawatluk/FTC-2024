@@ -39,7 +39,7 @@ public class teleop extends OpMode
     boolean invertY = true;
     double deadZone = 0;
     double saturation = 1;
-    double sensitivity = 0.1;
+    double sensitivity = 0.05;
     double range = 1;
     public boolean manual = false;
     public boolean RIGHT_MOTOR = false;
@@ -74,6 +74,11 @@ public class teleop extends OpMode
         extender_L.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         extender_R.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        BACK_LEFT_MOTOR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        BACK_RIGHT_MOTOR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        FRONT_LEFT_MOTOR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        FRONT_RIGHT_MOTOR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
         // Set motor directions
         FRONT_LEFT_MOTOR.setDirection(DcMotor.Direction.REVERSE);
         BACK_LEFT_MOTOR.setDirection(DcMotor.Direction.REVERSE);
@@ -89,7 +94,6 @@ public class teleop extends OpMode
 
     @Override
     public void init_loop() {
-        ENCODER_RESET();
     }
 
     @Override
@@ -109,6 +113,7 @@ public class teleop extends OpMode
     }
 
     public void ENCODER_RESET(){
+        CURRENT_MOTOR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LEFT_ARM_SERVO.setPosition(0);
         RIGHT_ARM_SERVO.setPosition(1);
         if (!LIMIT_SWITCH.getState()){
@@ -126,7 +131,7 @@ public class teleop extends OpMode
 
             // Set target positions for both motors
             CURRENT_MOTOR.setTargetPosition(targetPosition);
-            CURRENT_MOTOR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            CURRENT_MOTOR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             CURRENT_MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // Adjust power based on current position relative to the target
@@ -175,7 +180,7 @@ public class teleop extends OpMode
         else if (gamepad1.dpad_right){
             EXTENDER_FUNC(660,1);
             LEFT_ARM_SERVO.setPosition(0.5);
-            RIGHT_ARM_SERVO.setPosition(0.5);
+            RIGHT_ARM_SERVO.setPosition(0.5); //arm 90
         }
 
     }
